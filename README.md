@@ -10,7 +10,7 @@ Fixes workshop mods not installing in DayZ launcher when running under Wine/Prot
 
 ## Notice
 
-This patch generates a shell script for each affected UNIX file operation, nothing was throughly tested. If this destroys your computer, I am not to be held accountable for running random software on your computer. 
+This patch generates a shell script for each affected UNIX file operation and other stupid things, nothing was throughly tested. If this destroys your computer, I am not to be held accountable for running random software on your computer. 
 
 ## Usage:
 
