@@ -25,3 +25,12 @@ This patch generates a shell script for each affected UNIX file operation and ot
 ## How?
 
 It patches Windows-specific reparse code in Utils.IO.Junctions with call to native linux symlinks.
+
+## Why?
+
+1. So you can play on community servers with the original launcher under Proton
+2. So I don't have to re-distribute Bohemia's source code
+
+##
+
+**I am not affiliated, associated, authorized, endorsed by, or in any way officially connected with Bohemia Interactive, a.s., or any of its subsidiaries or its affiliates.**
