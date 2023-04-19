@@ -21,3 +21,7 @@ This patch generates a shell script for each affected UNIX file operation and ot
 (eg. `wine ./DayZLauncher.UnixPatcher.exe "/primary/SteamLibrary/steamapps/common/DayZ/"`)
 
 **Patch may need to be re-applied after game updates.**
+
+## How?
+
+It patches Windows-specific reparse code in Utils.IO.Junctions with call to native linux symlinks.
