@@ -18,6 +18,8 @@ This patch generates a shell script for each affected UNIX file operation and ot
 
 2. Launch patcher via wine, add your DayZ installation folder as argument 
 
+3. If you see a success message, boot up DayZ and enjoy!
+
 (eg. `wine ./DayZLauncher.UnixPatcher.exe "/primary/SteamLibrary/steamapps/common/DayZ/"`)
 
 **Patch may need to be re-applied after game updates.**
