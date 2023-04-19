@@ -14,6 +14,7 @@ namespace DayZLauncher.UnixPatcher
             if (args.Length != 1 || Directory.Exists(args[0]))
             {
                 Console.WriteLine("Must provide path to DayZ installation folder as argument!");
+                Console.ReadKey();
                 return;
             }
 
@@ -21,6 +22,7 @@ namespace DayZLauncher.UnixPatcher
             if (!File.Exists(targetAssembly))
             {
                 Console.WriteLine("Could not find Launcher/Utils.dll in target folder!");
+                Console.ReadKey();
                 return;
             }
 
@@ -41,7 +43,13 @@ namespace DayZLauncher.UnixPatcher
             PatchJunctionsMethod(unixJunctionsType, targetDefinition, junctionsClass, "Exists", new List<OpCode> { OpCodes.Ldarg_0 });
             PatchJunctionsMethod(unixJunctionsType, targetDefinition, junctionsClass, "GetTarget", new List<OpCode> { OpCodes.Ldarg_0 });
 
+            Console.WriteLine("Writing patches to disk...");
+
             targetDefinition.Write(targetAssembly);
+            File.Copy("DayZLauncher.UnixPatcher.Utils.dll", @$"{args[0].Trim()}\Launcher\DayZLauncher.UnixPatcher.Utils.dll");
+
+            Console.WriteLine("Patch applied!");
+            Console.ReadKey();
         }
 
         private static void PatchJunctionsMethod(TypeDefinition unixJunctionsType, AssemblyDefinition targetDefinition, TypeDefinition junctionsClass, string methodName, List<OpCode> args)
