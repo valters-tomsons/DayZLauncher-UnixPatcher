@@ -2,14 +2,15 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <LangVersion>11</LangVersion>
-    <SelfContained>true</SelfContained>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
     <NoWarn>NU1702;1702</NoWarn> <!-- Ignore warning about incompatible frameworks -->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugType>None</DebugType>
     <DebugSymbols>false</DebugSymbols>
+    <SelfContained>true</SelfContained>
   </PropertyGroup>
 
   <ItemGroup>
