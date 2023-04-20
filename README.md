@@ -1,6 +1,6 @@
 # DayZLauncher-UnixPatcher
 
-Fixes workshop mods not installing in DayZ launcher when running under Wine/Proton.
+Fixes workshop mods not installing in DayZ launcher when running under in Mono runtime (Wine/Proton).
 
 ## Screenshots
 
