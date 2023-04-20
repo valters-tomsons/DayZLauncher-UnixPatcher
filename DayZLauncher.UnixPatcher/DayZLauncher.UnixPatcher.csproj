@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net4.5</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <LangVersion>11</LangVersion>
+    <SelfContained>true</SelfContained>
+    <NoWarn>NU1702;1702</NoWarn> <!-- Ignore warning about incompatible frameworks -->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -14,7 +16,7 @@
     <ProjectReference
       Include="../DayZLauncher.UnixPatcher.Utils/DayZLauncher.UnixPatcher.Utils.csproj" />
 
-    <PackageReference Include="Mono.Cecil" Version="0.11.4" />
+    <PackageReference Include="Mono.Cecil" Version="0.11.5" />
   </ItemGroup>
 
 </Project>
