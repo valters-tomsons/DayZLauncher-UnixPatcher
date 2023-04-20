@@ -9,6 +9,9 @@ namespace DayZLauncher.UnixPatcher.Utils;
 // Ignore warnings about unused method arguments
 #pragma warning disable RCS1163, IDE0060
 
+/// <summary>
+/// Contains methods replacing DayZLauncher's Utils.IO.Junctions
+/// </summary>
 public static class UnixJunctions
 {
     private static bool IsRunningOnMono => Type.GetType("Mono.Runtime") != null;
