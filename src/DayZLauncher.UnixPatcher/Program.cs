@@ -79,6 +79,12 @@ void PatchJunctionsMethod(TypeDefinition unixJunctionsType, AssemblyDefinition t
 string MoveFileToBackup(string filePath)
 {
     var newPath = filePath + ".bak";
+
+    if (File.Exists(newPath))
+    {
+        Console.WriteLine("Warning! Backup Utils.dll already exists, overwriting!");
+    }
+
     File.Move(filePath, newPath, true);
     return newPath;
 }
