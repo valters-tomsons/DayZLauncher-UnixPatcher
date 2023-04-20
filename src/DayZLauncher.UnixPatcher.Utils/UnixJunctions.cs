@@ -92,11 +92,10 @@ public static class UnixJunctions
         Directory.CreateDirectory(basePath);
 
         string uniqueId = Guid.NewGuid().ToString("N");
-        string tempScriptPath = basePath + @$"\tmp_script_{uniqueId}.sh";
         string tempOutputPath = basePath + @$"\tmp_output_{uniqueId}.txt";
         string lockFilePath = basePath + @$"\{uniqueId}.lock";
 
-        Console.WriteLine("UnixJunctions.RunShellCommand: tempScriptPath= " + tempScriptPath + " ;tempOutputPath= " + tempOutputPath);
+        Console.WriteLine($"UnixJunctions.RunShellCommand: tempOutputPath='{tempOutputPath}'");
 
         var script = $"""
         #!/bin/sh
@@ -124,7 +123,14 @@ public static class UnixJunctions
 
             if (process.ExitCode != 0)
             {
-                throw new Exception($"UnixJunctions: Error running shell script '{tempScriptPath}'. Exit code: {process.ExitCode}");
+                Console.WriteLine($"UnixJunctions: Error executing script '{uniqueId}'. Exit code: {process.ExitCode}");
+
+                if (File.Exists(lockFilePath))
+                {
+                    Console.WriteLine($"UnixJunctions: Cleaning up {lockFilePath}");
+                    File.Delete(lockFilePath);
+                    return string.Empty;
+                }
             }
         }
 
@@ -141,12 +147,11 @@ public static class UnixJunctions
         }
 
         // Read the output file
-        string output = File.ReadAllText(tempOutputPath);
-        Console.WriteLine("UnixJunctions.RunShellCommand: output= " + output);
-
+        string scriptOutput = File.ReadAllText(tempOutputPath);
+        Console.WriteLine($"UnixJunctions.RunShellCommand: {uniqueId} output= {scriptOutput}");
         File.Delete(tempOutputPath);
 
-        return output;
+        return scriptOutput;
     }
 
     private static string ToUnixPath(string windowsPath)
