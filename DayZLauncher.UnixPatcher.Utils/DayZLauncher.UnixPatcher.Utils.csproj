@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net4.5</TargetFramework>
         <OutputType>Library</OutputType>
-        <LangVersion>latest</LangVersion>
+        <LangVersion>11</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
