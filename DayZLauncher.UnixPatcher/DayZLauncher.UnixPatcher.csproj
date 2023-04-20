@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net4.5</TargetFramework>
-        <OutputType>WinExe</OutputType>
+        <OutputType>Exe</OutputType>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
