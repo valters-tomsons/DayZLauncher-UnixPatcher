@@ -139,7 +139,7 @@ public static class UnixJunctions
         var processStartInfo = new ProcessStartInfo
         {
             FileName = "cmd.exe",
-            Arguments = $"/C start /unix /usr/bin/sh -c \"{ToUnixPath(tempScriptPath)}\"",
+            Arguments = $"/C start /unix /bin/sh -c \"{ToUnixPath(tempScriptPath)}\"",
             RedirectStandardOutput = false,
             UseShellExecute = false,
             CreateNoWindow = true
