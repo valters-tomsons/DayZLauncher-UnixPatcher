@@ -10,7 +10,7 @@ Fixes workshop mods not installing in DayZ launcher when running under Wine/Prot
 
 ## Notice
 
-This patch generates a shell script for each affected UNIX file operation and other stupid things, nothing was throughly tested. If this destroys your computer, I am not to be held accountable for running random software on your computer. 
+This patch generates a shell script for each affected UNIX file operation and other stupid things, nothing was throughly tested. If this destroys your computer, I am not to be held accountable for you running random software on your computer. 
 
 ## Usage:
 
@@ -23,10 +23,6 @@ This patch generates a shell script for each affected UNIX file operation and ot
 (eg. `wine ./DayZLauncher.UnixPatcher.exe "/primary/SteamLibrary/steamapps/common/DayZ/"`)
 
 **Patch may need to be re-applied after game updates.**
-
-## How?
-
-It patches Windows-specific reparse code in Utils.IO.Junctions with call to native linux symlinks.
 
 ## Why?
 
