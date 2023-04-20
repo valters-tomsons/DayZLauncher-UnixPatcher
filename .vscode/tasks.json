@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/DayZLauncher.UnixPatcher/DayZLauncher.UnixPatcher.csproj",
+                "${workspaceFolder}/src/DayZLauncher.UnixPatcher/DayZLauncher.UnixPatcher.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
