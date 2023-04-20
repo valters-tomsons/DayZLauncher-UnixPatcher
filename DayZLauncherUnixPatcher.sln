@@ -3,26 +3,52 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DayZLauncher.UnixPatcher", "DayZLauncher.UnixPatcher\DayZLauncher.UnixPatcher.csproj", "{7CA7FF88-E179-4787-A9C1-5C84DAE8968D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1CD57109-7CA1-42EB-9E91-3AAEC2E015FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DayZLauncher.UnixPatcher.Utils", "DayZLauncher.UnixPatcher.Utils\DayZLauncher.UnixPatcher.Utils.csproj", "{CA18027D-C3DC-45CA-8FAB-B20CF558B61B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DayZLauncher.UnixPatcher", "src\DayZLauncher.UnixPatcher\DayZLauncher.UnixPatcher.csproj", "{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DayZLauncher.UnixPatcher.Utils", "src\DayZLauncher.UnixPatcher.Utils\DayZLauncher.UnixPatcher.Utils.csproj", "{0972664E-A304-4CAE-81A2-9B504FB73C18}"
 EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7CA7FF88-E179-4787-A9C1-5C84DAE8968D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7CA7FF88-E179-4787-A9C1-5C84DAE8968D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7CA7FF88-E179-4787-A9C1-5C84DAE8968D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7CA7FF88-E179-4787-A9C1-5C84DAE8968D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA18027D-C3DC-45CA-8FAB-B20CF558B61B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA18027D-C3DC-45CA-8FAB-B20CF558B61B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA18027D-C3DC-45CA-8FAB-B20CF558B61B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA18027D-C3DC-45CA-8FAB-B20CF558B61B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Debug|x64.Build.0 = Debug|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Debug|x86.Build.0 = Debug|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Release|x64.ActiveCfg = Release|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Release|x64.Build.0 = Release|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Release|x86.ActiveCfg = Release|Any CPU
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB}.Release|x86.Build.0 = Release|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Debug|x64.Build.0 = Debug|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Debug|x86.Build.0 = Debug|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Release|x64.ActiveCfg = Release|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Release|x64.Build.0 = Release|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Release|x86.ActiveCfg = Release|Any CPU
+		{0972664E-A304-4CAE-81A2-9B504FB73C18}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CA4FDF3F-232A-486A-91D6-D95F1FCF29EB} = {1CD57109-7CA1-42EB-9E91-3AAEC2E015FF}
+		{0972664E-A304-4CAE-81A2-9B504FB73C18} = {1CD57109-7CA1-42EB-9E91-3AAEC2E015FF}
 	EndGlobalSection
 EndGlobal
