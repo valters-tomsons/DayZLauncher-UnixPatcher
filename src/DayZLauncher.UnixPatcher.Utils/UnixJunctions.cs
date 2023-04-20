@@ -105,50 +105,17 @@ public static class UnixJunctions
         rm "{ToUnixPath(lockFilePath)}"
         """;
 
-        File.WriteAllText(tempScriptPath, script.Replace("\r\n", "\n"));
-
-        Console.WriteLine("UnixJunctions.RunShellCommand: shell script generated " + uniqueId);
-
-        // Set executable permission on the script
-        var chmodStartInfo = new ProcessStartInfo
-        {
-            FileName = "cmd.exe",
-            Arguments = $"/C start /unix /usr/bin/chmod +x \"{ToUnixPath(tempScriptPath)}\"",
-            RedirectStandardOutput = false,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        Console.WriteLine("UnixJunctions.RunShellCommand: about to chmod " + uniqueId + tempScriptPath);
-
-        using (Process chmodProcess = new() { StartInfo = chmodStartInfo })
-        {
-            chmodProcess.Start();
-            chmodProcess.WaitForExit();
-
-            if (chmodProcess.ExitCode != 0)
-            {
-                throw new Exception($"UnixJunctions.RunShellCommand: Error setting executable permission on '{tempScriptPath}'. Exit code: {chmodProcess.ExitCode}");
-            }
-            else
-            {
-                Console.WriteLine("UnixJunctions.RunShellCommand: chmod exited: " + chmodProcess.ExitCode);
-            }
-        }
-
-        Console.WriteLine("UnixJunctions.RunShellCommand: chmod finished for " + uniqueId);
-
         // Execute the shell script
         var processStartInfo = new ProcessStartInfo
         {
             FileName = "cmd.exe",
-            Arguments = $"/C start /unix /bin/sh -c \"{ToUnixPath(tempScriptPath)}\"",
+            Arguments = $"/C start /unix /bin/sh -c \"{script}\"",
             RedirectStandardOutput = false,
             UseShellExecute = false,
             CreateNoWindow = true
         };
 
-        Console.WriteLine("UnixJunctions.RunShellCommand: about to launch script " + uniqueId);
+        Console.WriteLine("UnixJunctions.RunShellCommand: about to execute script " + uniqueId);
 
         using (Process process = new() { StartInfo = processStartInfo })
         {
@@ -178,7 +145,6 @@ public static class UnixJunctions
         Console.WriteLine("UnixJunctions.RunShellCommand: output= " + output);
 
         File.Delete(tempOutputPath);
-        File.Delete(tempScriptPath);
 
         return output;
     }
