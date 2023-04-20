@@ -6,6 +6,9 @@ using System.Threading;
 
 namespace DayZLauncher.UnixPatcher.Utils;
 
+// Ignore warnings about unused method arguments
+#pragma warning disable RCS1163, IDE0060
+
 public static class UnixJunctions
 {
     private static bool IsRunningOnMono => Type.GetType("Mono.Runtime") != null;
@@ -82,7 +85,7 @@ public static class UnixJunctions
         Console.WriteLine("UnixJunctions.RunShellCommand: command= " + command + " ;arguments= " + arguments);
 
         var gameLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        var basePath = gameLocation + @$"\!Linux";
+        var basePath = gameLocation + @"\!Linux";
         Directory.CreateDirectory(basePath);
 
         string uniqueId = Guid.NewGuid().ToString("N");
@@ -92,13 +95,12 @@ public static class UnixJunctions
 
         Console.WriteLine("UnixJunctions.RunShellCommand: tempScriptPath= " + tempScriptPath + " ;tempOutputPath= " + tempOutputPath);
 
-        // Write the shell script
-        var script = @$"#!/bin/sh
-touch ""{ToUnixPath(lockFilePath)}""
-{command} {arguments} > ""{ToUnixPath(tempOutputPath)}""
-rm ""{ToUnixPath(lockFilePath)}""
-
-";
+        var script = $"""
+        #!/bin/sh
+        touch "{ToUnixPath(lockFilePath)}"
+        {command} {arguments} > "{ToUnixPath(tempOutputPath)}"
+        rm "{ToUnixPath(lockFilePath)}"
+        """;
 
         File.WriteAllText(tempScriptPath, script.Replace("\r\n", "\n"));
 
@@ -116,7 +118,7 @@ rm ""{ToUnixPath(lockFilePath)}""
 
         Console.WriteLine("UnixJunctions.RunShellCommand: about to chmod " + uniqueId + tempScriptPath);
 
-        using (Process chmodProcess = new Process { StartInfo = chmodStartInfo })
+        using (Process chmodProcess = new() { StartInfo = chmodStartInfo })
         {
             chmodProcess.Start();
             chmodProcess.WaitForExit();
@@ -145,7 +147,7 @@ rm ""{ToUnixPath(lockFilePath)}""
 
         Console.WriteLine("UnixJunctions.RunShellCommand: about to launch script " + uniqueId);
 
-        using (Process process = new Process { StartInfo = processStartInfo })
+        using (Process process = new() { StartInfo = processStartInfo })
         {
             process.Start();
             process.WaitForExit();
