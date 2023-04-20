@@ -18,7 +18,7 @@ internal static class Program
             return;
         }
 
-        var targetAssembly = @$"{args[0].Trim()}\Launcher\Utils.dll";
+        var targetAssembly = $"{args[0].Trim()}/Launcher/Utils.dll";
         if (!File.Exists(targetAssembly))
         {
             Console.WriteLine(@"Could not find 'Launcher\Utils.dll' in target folder!");
@@ -34,7 +34,8 @@ internal static class Program
 
         File.Move(targetAssembly, backupAssembly);
 
-        const string patchAssembly = "DayZLauncher.UnixPatcher.Utils.dll";
+        var currentDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + '/';
+        var patchAssembly = currentDir + "DayZLauncher.UnixPatcher.Utils.dll";
 
         using var patchDefinition = AssemblyDefinition.ReadAssembly(patchAssembly);
         var unixJunctionsType = patchDefinition.MainModule.GetType("DayZLauncher.UnixPatcher.Utils.UnixJunctions");
@@ -52,7 +53,7 @@ internal static class Program
         Console.WriteLine("Writing patches to disk...");
 
         targetDefinition.Write(targetAssembly);
-        File.Copy("DayZLauncher.UnixPatcher.Utils.dll", @$"{args[0].Trim()}\Launcher\DayZLauncher.UnixPatcher.Utils.dll", true);
+        File.Copy(patchAssembly, $"{args[0].Trim()}/Launcher/DayZLauncher.UnixPatcher.Utils.dll", true);
 
         Console.WriteLine("Patch applied!");
         Console.ReadKey();
