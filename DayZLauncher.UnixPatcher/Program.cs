@@ -27,20 +27,19 @@ internal static class Program
         }
 
         var backupAssembly = targetAssembly + ".bak";
-
         if (File.Exists(backupAssembly))
         {
             File.Delete(backupAssembly);
         }
 
-        File.Move(targetAssembly, targetAssembly + ".bak");
+        File.Move(targetAssembly, backupAssembly);
 
-        var patchAssembly = "DayZLauncher.UnixPatcher.Utils.dll";
+        const string patchAssembly = "DayZLauncher.UnixPatcher.Utils.dll";
 
         using var patchDefinition = AssemblyDefinition.ReadAssembly(patchAssembly);
         var unixJunctionsType = patchDefinition.MainModule.GetType("DayZLauncher.UnixPatcher.Utils.UnixJunctions");
 
-        using var targetDefinition = AssemblyDefinition.ReadAssembly(targetAssembly + ".bak");
+        using var targetDefinition = AssemblyDefinition.ReadAssembly(backupAssembly);
         var importedUnixJunctionsType = targetDefinition.MainModule.ImportReference(unixJunctionsType);
 
         var junctionsClass = targetDefinition.MainModule.GetType("Utils.IO.Junctions");
