@@ -1,7 +1,7 @@
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 
-namespace DayZLauncher.UnixPatcher;
+namespace DayZLauncher.UnixPatcher.Patches;
 
 public static class UtilsAssemblyPatcher
 {

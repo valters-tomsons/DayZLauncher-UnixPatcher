@@ -1,4 +1,5 @@
 ﻿using DayZLauncher.UnixPatcher;
+using DayZLauncher.UnixPatcher.Patches;
 
 var userInput = args[0].Trim();
 if (string.IsNullOrWhiteSpace(userInput))
