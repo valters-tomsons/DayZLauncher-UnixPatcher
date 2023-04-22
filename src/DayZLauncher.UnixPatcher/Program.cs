@@ -19,7 +19,7 @@ var backupAssembly = Utils.MoveFileToBackup(targetAssembly);
 var baseDirectory = Path.GetDirectoryName(AppContext.BaseDirectory + '/');
 var utilsPatchPath = baseDirectory + "/DayZLauncher.UnixPatcher.Utils.dll";
 
-using var patchedUtils = AssemblyPatcher.PatchUtilsAssembly(backupAssembly, utilsPatchPath);
+using var patchedUtils = UtilsAssemblyPatcher.PatchAssembly(backupAssembly, utilsPatchPath);
 Console.WriteLine("Writing patches to disk...");
 
 try
@@ -37,4 +37,4 @@ catch
     File.Move(backupAssembly, targetAssembly);
 }
 
-Utils.WriteLine("Patches applied!", ConsoleColor.Green);
+Utils.WriteLine("Patching finished!", ConsoleColor.Green);

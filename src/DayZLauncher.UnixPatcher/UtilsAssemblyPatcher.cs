@@ -3,9 +3,9 @@ using Mono.Cecil.Cil;
 
 namespace DayZLauncher.UnixPatcher;
 
-public static class AssemblyPatcher
+public static class UtilsAssemblyPatcher
 {
-    public static AssemblyDefinition PatchUtilsAssembly(string sourcePath, string payloadPath)
+    public static AssemblyDefinition PatchAssembly(string sourcePath, string payloadPath)
     {
         using var utilsPatchDef = AssemblyDefinition.ReadAssembly(payloadPath);
         var unixJunctionsTypeDef = utilsPatchDef.MainModule.GetType("DayZLauncher.UnixPatcher.Utils.UnixJunctions");
