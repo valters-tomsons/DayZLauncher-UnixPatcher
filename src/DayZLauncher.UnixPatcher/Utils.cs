@@ -2,6 +2,13 @@ namespace DayZLauncher.UnixPatcher;
 
 public static class Utils
 {
+    public static void WriteLine(string? message, ConsoleColor color = ConsoleColor.White)
+    {
+        Console.ForegroundColor = color;
+        Console.WriteLine(message);
+        Console.BackgroundColor = ConsoleColor.White;
+    }
+
     public static string MoveFileToBackup(string filePath)
     {
         var newPath = filePath + ".bak";
