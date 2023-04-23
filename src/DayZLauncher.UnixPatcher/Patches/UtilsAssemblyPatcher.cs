@@ -10,7 +10,7 @@ public static class UtilsAssemblyPatcher
         using var utilsPatchDef = AssemblyDefinition.ReadAssembly(payloadPath);
         var unixJunctionsTypeDef = utilsPatchDef.MainModule.GetType("DayZLauncher.UnixPatcher.Utils.UnixJunctions");
 
-        using var targetDef = AssemblyDefinition.ReadAssembly(sourcePath);
+        var targetDef = AssemblyDefinition.ReadAssembly(sourcePath);
         var unixJunctionsImport = targetDef.MainModule.ImportReference(unixJunctionsTypeDef);
 
         var targetJunctionsTypeDef = targetDef.MainModule.GetType("Utils.IO.Junctions");
