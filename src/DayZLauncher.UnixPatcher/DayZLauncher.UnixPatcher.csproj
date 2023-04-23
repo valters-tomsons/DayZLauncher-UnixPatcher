@@ -8,8 +8,6 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <DebugType>None</DebugType>
-    <DebugSymbols>false</DebugSymbols>
     <SelfContained>true</SelfContained>
   </PropertyGroup>
 
