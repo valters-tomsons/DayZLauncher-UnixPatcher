@@ -4,7 +4,9 @@ Provides unofficial fixes for the DayZ launcher when running in Linux/Proton.
 
 Features:
 * Fixes being unable to install/enable workshop mods
-* Fixes launcher configuration not saving
+* Fixes repeated BattleEye EULA prompts
+* Fixes launcher options not saving (default page, etc.)
+* Fixes parameters not saving
 
 Fixes workshop mods not installing in the official DayZ launcher when running under in Mono runtime (Wine/Proton).
 
