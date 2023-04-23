@@ -14,10 +14,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mono.Cecil" Version="0.11.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference
       Include="../DayZLauncher.UnixPatcher.Utils/DayZLauncher.UnixPatcher.Utils.csproj" />
 
-    <PackageReference Include="Mono.Cecil" Version="0.11.5" />
+    <None Include="../../README.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
