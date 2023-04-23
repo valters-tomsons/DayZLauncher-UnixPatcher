@@ -1,3 +1,4 @@
+using System.Text;
 using System.Xml;
 
 namespace DayZLauncher.UnixPatcher.Patches;
@@ -30,7 +31,8 @@ public static class LauncherConfigPatcher
             newXml = new string(configXml.OuterXml);
         }
 
-        await File.WriteAllTextAsync(configFilePath, IndentXml(newXml));
+        newXml = IndentXml(newXml);
+        await File.WriteAllTextAsync(configFilePath, newXml);
     }
 
     public static void RemoveOldUserConfig(string gamePath)
@@ -74,13 +76,14 @@ public static class LauncherConfigPatcher
             Indent = true,
             IndentChars = "  ",
             NewLineChars = "\r\n",
-            NewLineHandling = NewLineHandling.Replace
+            NewLineHandling = NewLineHandling.Replace,
+            Encoding = Encoding.UTF8
         };
 
-        using var stringWriter = new StringWriter();
-        using var xmlWriter = XmlWriter.Create(stringWriter, settings);
+        var sb = new StringBuilder();
+        using var xmlWriter = XmlWriter.Create(sb, settings);
         doc.Save(xmlWriter);
-        return stringWriter.ToString();
+        var xmlString = sb.ToString();
+        return xmlString.Replace("utf-16", "utf-8");
     }
-
 }
