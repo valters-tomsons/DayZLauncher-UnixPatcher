@@ -22,9 +22,11 @@ try
     var baseDirectory = Path.GetDirectoryName(AppContext.BaseDirectory + '/');
     var utilsPatchPath = baseDirectory + "/DayZLauncher.UnixPatcher.Utils.dll";
 
-    using var patchedUtils = UtilsAssemblyPatcher.PatchAssembly(backupAssembly, utilsPatchPath);
-    patchedUtils.Write(targetAssembly);
-    Common.WriteLine("Utils.dll patched!", ConsoleColor.Green);
+    using (var patchedUtils = UtilsAssemblyPatcher.PatchAssembly(backupAssembly, utilsPatchPath))
+    {
+        patchedUtils.Write(targetAssembly);
+        Common.WriteLine("Utils.dll patched!", ConsoleColor.Green);
+    }
 
     File.Copy(utilsPatchPath, args[0].Trim() + "/Launcher/DayZLauncher.UnixPatcher.Utils.dll", true);
     Common.WriteLine("UnixPatcher.Utils.dll deployed!", ConsoleColor.Green);
