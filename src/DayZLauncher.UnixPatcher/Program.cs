@@ -1,4 +1,4 @@
-using DayZLauncher.UnixPatcher;
+﻿using DayZLauncher.UnixPatcher;
 using DayZLauncher.UnixPatcher.Patches;
 
 var userInput = Path.GetDirectoryName(args[0].Trim() + '/');
@@ -38,4 +38,16 @@ catch
     return;
 }
 
-Utils.WriteLine("Patching finished!", ConsoleColor.Green);
+Utils.WriteLine("Applying launcher settings fix...");
+try
+{
+    LauncherConfigPatcher.PatchLauncherConfigFile(userInput);
+    LauncherConfigPatcher.RemoveOldUserConfig(userInput);
+}
+catch
+{
+    Utils.WriteLine("Failed to patch launcher settings", ConsoleColor.Red);
+    Utils.WriteLine("Launcher may continue to not save properly", ConsoleColor.Yellow);
+}
+
+Utils.WriteLine("Patching finished!");
