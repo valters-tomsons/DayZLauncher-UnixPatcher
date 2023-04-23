@@ -1,19 +1,37 @@
+using System.Xml;
 using System.Xml.Linq;
 
 namespace DayZLauncher.UnixPatcher.Patches;
 
 public static class LauncherConfigPatcher
 {
-    public static void PatchLauncherConfigFile(string gamePath)
+    public static async Task PatchLauncherConfigFile(string gamePath)
     {
         var configFilePath = $"{gamePath}/DayZLauncher.exe.config";
-        var configFile = XDocument.Load(configFilePath);
+        string? newXml = string.Empty;
 
-        var userGroup = configFile.Descendants("sectionGroup").First(x => x.Attribute("name").Equals("userSettings"));
-        userGroup?.Remove();
+        if (!File.Exists(configFilePath))
+        {
+            Utils.WriteLine("Failed to find DayZLauncher.exe.config!");
+            return;
+        }
 
-        var userSettings = configFile.Descendants("userSettings");
-        userSettings?.Remove();
+        using (var configStream = new FileStream(configFilePath, FileMode.Open, FileAccess.Read, FileShare.None, 4096, true))
+        {
+            var configXml = new XmlDocument();
+            configXml.Load(configStream);
+            await configStream.FlushAsync();
+
+            var sectionGroup = configXml.SelectSingleNode("//sectionGroup[@name='userSettings']");
+            sectionGroup?.ParentNode?.RemoveChild(sectionGroup);
+
+            var userSettings = configXml.SelectSingleNode("//userSettings");
+            userSettings?.ParentNode?.RemoveChild(userSettings);
+
+            newXml = new string(configXml.OuterXml);
+        }
+
+        await File.WriteAllTextAsync(configFilePath, IndentXml(newXml));
     }
 
     public static void RemoveOldUserConfig(string gamePath)
@@ -48,4 +66,24 @@ public static class LauncherConfigPatcher
             File.Delete(file);
         }
     }
+
+    private static string IndentXml(string xml)
+    {
+        var doc = new XmlDocument();
+        doc.LoadXml(xml);
+
+        var settings = new XmlWriterSettings
+        {
+            Indent = true,
+            IndentChars = "  ",
+            NewLineChars = "\r\n",
+            NewLineHandling = NewLineHandling.Replace
+        };
+
+        using var stringWriter = new StringWriter();
+        using var xmlWriter = XmlWriter.Create(stringWriter, settings);
+        doc.Save(xmlWriter);
+        return stringWriter.ToString();
+    }
+
 }

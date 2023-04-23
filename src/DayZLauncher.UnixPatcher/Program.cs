@@ -16,14 +16,13 @@ if (!File.Exists(targetAssembly))
 }
 
 var backupAssembly = Utils.MoveFileToBackup(targetAssembly);
-
-var baseDirectory = Path.GetDirectoryName(AppContext.BaseDirectory + '/');
-var utilsPatchPath = baseDirectory + "/DayZLauncher.UnixPatcher.Utils.dll";
-
-using var patchedUtils = UtilsAssemblyPatcher.PatchAssembly(backupAssembly, utilsPatchPath);
 Console.WriteLine("Applying workshop mod fix...");
 try
 {
+    var baseDirectory = Path.GetDirectoryName(AppContext.BaseDirectory + '/');
+    var utilsPatchPath = baseDirectory + "/DayZLauncher.UnixPatcher.Utils.dll";
+
+    using var patchedUtils = UtilsAssemblyPatcher.PatchAssembly(backupAssembly, utilsPatchPath);
     patchedUtils.Write(targetAssembly);
     Utils.WriteLine("Utils.dll patched!", ConsoleColor.Green);
 
@@ -33,15 +32,15 @@ try
 catch
 {
     Utils.WriteLine("Failed to write files into DayZ directory!", ConsoleColor.Red);
+    Utils.WriteLine("Workshop mods will not work!", ConsoleColor.Red);
     Utils.WriteLine("Reverting changes...", ConsoleColor.Yellow);
     File.Move(backupAssembly, targetAssembly);
-    return;
 }
 
 Utils.WriteLine("Applying launcher settings fix...");
 try
 {
-    LauncherConfigPatcher.PatchLauncherConfigFile(userInput);
+    await LauncherConfigPatcher.PatchLauncherConfigFile(userInput);
     LauncherConfigPatcher.RemoveOldUserConfig(userInput);
 }
 catch
