@@ -6,7 +6,7 @@ public static class Common
     {
         Console.ForegroundColor = color;
         Console.WriteLine(message);
-        Console.BackgroundColor = ConsoleColor.White;
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
     public static string MoveFileToBackup(string filePath)
