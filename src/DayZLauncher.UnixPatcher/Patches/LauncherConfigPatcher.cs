@@ -1,5 +1,4 @@
 using System.Xml;
-using System.Xml.Linq;
 
 namespace DayZLauncher.UnixPatcher.Patches;
 
@@ -12,7 +11,7 @@ public static class LauncherConfigPatcher
 
         if (!File.Exists(configFilePath))
         {
-            Utils.WriteLine("Failed to find DayZLauncher.exe.config!");
+            Common.WriteLine("Failed to find DayZLauncher.exe.config!");
             return;
         }
 
@@ -41,28 +40,26 @@ public static class LauncherConfigPatcher
 
         if (!Directory.Exists(prefixPath))
         {
-            Utils.WriteLine($"Failed to find game prefix at: '{prefixPath}'", ConsoleColor.Red);
-            Utils.WriteLine($"""
+            Common.WriteLine($"Failed to find game prefix at: '{prefixPath}'", ConsoleColor.Red);
+            Common.WriteLine($"""
                 You should delete the following file manually for saving to work!!! 
                 > {bohemiaPath}/DayZ Launcher_*/*/user.config
             """, ConsoleColor.Yellow);
             return;
         }
 
-        Utils.WriteLine("Proton prefix found!");
+        Common.WriteLine("Proton prefix found!");
 
         if (!Directory.Exists(bohemiaPath))
         {
-            Utils.WriteLine("Could not find config settings folder, nothing to patch");
+            Common.WriteLine("Could not find config settings folder, nothing to patch");
             return;
         }
 
-        var enumerationOptions = new EnumerationOptions() { RecurseSubdirectories = true };
         var configFiles = Directory.EnumerateFiles(bohemiaPath, "user.config", SearchOption.AllDirectories);
-
         foreach (var file in configFiles)
         {
-            Utils.WriteLine($"Deleting settings file: {file}", ConsoleColor.Green);
+            Common.WriteLine($"Deleting settings file: {file}", ConsoleColor.Green);
             File.Delete(file);
         }
     }

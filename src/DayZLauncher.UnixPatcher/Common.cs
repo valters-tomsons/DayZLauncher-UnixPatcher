@@ -1,6 +1,6 @@
 namespace DayZLauncher.UnixPatcher;
 
-public static class Utils
+public static class Common
 {
     public static void WriteLine(string? message, ConsoleColor color = ConsoleColor.White)
     {
