@@ -31,11 +31,14 @@ try
     File.Copy(utilsPatchPath, args[0].Trim() + "/Launcher/DayZLauncher.UnixPatcher.Utils.dll", true);
     Common.WriteLine("UnixPatcher.Utils.dll deployed!", ConsoleColor.Green);
 }
-catch
+catch (Exception e)
 {
+    Common.WriteLine(e.Message);
     Common.WriteLine("Failed to write files into DayZ directory!", ConsoleColor.Red);
     Common.WriteLine("Workshop mods will not work!", ConsoleColor.Red);
     Common.WriteLine("Reverting changes...", ConsoleColor.Yellow);
+
+    File.Delete(targetAssembly);
     File.Move(backupAssembly, targetAssembly);
 }
 
