@@ -1,7 +1,7 @@
-﻿using DayZLauncher.UnixPatcher;
+using DayZLauncher.UnixPatcher;
 using DayZLauncher.UnixPatcher.Patches;
 
-var userInput = args[0].Trim();
+var userInput = Path.GetDirectoryName(args[0].Trim() + '/');
 if (string.IsNullOrWhiteSpace(userInput))
 {
     Utils.WriteLine("Must provide path to DayZ installation folder as argument!", ConsoleColor.Yellow);
@@ -21,8 +21,7 @@ var baseDirectory = Path.GetDirectoryName(AppContext.BaseDirectory + '/');
 var utilsPatchPath = baseDirectory + "/DayZLauncher.UnixPatcher.Utils.dll";
 
 using var patchedUtils = UtilsAssemblyPatcher.PatchAssembly(backupAssembly, utilsPatchPath);
-Console.WriteLine("Writing patches to disk...");
-
+Console.WriteLine("Applying workshop mod fix...");
 try
 {
     patchedUtils.Write(targetAssembly);
@@ -34,8 +33,9 @@ try
 catch
 {
     Utils.WriteLine("Failed to write files into DayZ directory!", ConsoleColor.Red);
-    Utils.WriteLine("Reverting changes...", ConsoleColor.DarkYellow);
+    Utils.WriteLine("Reverting changes...", ConsoleColor.Yellow);
     File.Move(backupAssembly, targetAssembly);
+    return;
 }
 
 Utils.WriteLine("Patching finished!", ConsoleColor.Green);
