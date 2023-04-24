@@ -6,7 +6,7 @@ if (args is null || args.Length < 1)
 {
     Common.WriteLine("");
     Common.WriteLine("Enter full DayZ installation path and press ENTER");
-    Console.Write("|> ");
+    Console.Write("> ");
     userInput = Console.ReadLine();
 }
 else
