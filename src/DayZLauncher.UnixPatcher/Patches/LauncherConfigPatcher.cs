@@ -38,20 +38,27 @@ public static class LauncherConfigPatcher
     public static void RemoveOldUserConfig(string gamePath)
     {
         var prefixPath = $"{gamePath}/../../compatdata/221100/pfx";
-        var bohemiaPath = $"{prefixPath}/drive_c/users/steamuser/AppData/Local/Bohemia Interactive/";
 
         if (!Directory.Exists(prefixPath))
         {
-            Common.WriteLine($"Failed to find game prefix at: '{prefixPath}'", ConsoleColor.Red);
-            Common.WriteLine($"""
-                You should delete the following file manually for saving to work!!! 
-                > {bohemiaPath}/DayZ Launcher_*/*/user.config
-            """, ConsoleColor.Yellow);
-            return;
+            var systemPrefix = Common.TryGetGamePrefixFromSystem();
+            if (systemPrefix is null)
+            {
+                Common.WriteLine($"Failed to find game prefix at: '{prefixPath}'", ConsoleColor.Red);
+                Common.WriteLine("""
+                You should manually delete the following file for launcher to work!!! 
+                > C:/users/steamuser/AppData/Local/Bohemia Interactive/DayZ Launcher_*/*/user.config
+                """,
+                ConsoleColor.Yellow);
+                return;
+            }
+
+            prefixPath = systemPrefix;
         }
 
         Common.WriteLine("Proton prefix found!");
 
+        var bohemiaPath = $"{prefixPath}/drive_c/users/steamuser/AppData/Local/Bohemia Interactive/";
         if (!Directory.Exists(bohemiaPath))
         {
             Common.WriteLine("Could not find config settings folder, nothing to patch");

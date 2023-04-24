@@ -15,10 +15,24 @@ public static class Common
 
         if (File.Exists(newPath))
         {
-            Console.WriteLine("Warning! Backup Utils.dll already exists, overwriting!");
+            WriteLine("Warning! Backup Utils.dll already exists, overwriting!");
         }
 
         File.Move(filePath, newPath, true);
         return newPath;
+    }
+
+    public static string? TryGetGamePrefixFromSystem()
+    {
+        var homePath = Environment.GetEnvironmentVariable("HOME");
+        var homeSteamPrefix = $"{homePath}/.steam/steam/steamapps/compatdata/221100";
+
+        if (Directory.Exists(homeSteamPrefix))
+        {
+            WriteLine($"Game prefix found from system: '{homeSteamPrefix}'");
+            return homeSteamPrefix;
+        }
+
+        return null;
     }
 }
