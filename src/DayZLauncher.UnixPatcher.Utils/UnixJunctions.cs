@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -36,7 +36,7 @@ public static class UnixJunctions
         junctionPoint = ToUnixPath(junctionPoint);
         targetDir = ToUnixPath(targetDir);
 
-        RunShellCommand("ln", $"-s -T \"{targetDir}\" \"{junctionPoint}\"");
+        RunShellCommand("ln", $"-s -T '{targetDir}' '{junctionPoint}'");
     }
 
     public static void Delete(string junctionPoint)
@@ -53,7 +53,7 @@ public static class UnixJunctions
         if (Directory.Exists(junctionPoint))
         {
             junctionPoint = ToUnixPath(junctionPoint);
-            RunShellCommand("rm", $"-r \"{junctionPoint}\"");
+            RunShellCommand("rm", $"-r '{junctionPoint}'");
         }
     }
 
@@ -67,7 +67,7 @@ public static class UnixJunctions
         try
         {
             path = ToUnixPath(path);
-            string output = RunShellCommand("ls", $"-la \"{path}\"");
+            string output = RunShellCommand("ls", $"-la '{path}'");
             return output.Contains("->");
         }
         catch
@@ -79,7 +79,7 @@ public static class UnixJunctions
     public static string GetTarget(string junctionPoint)
     {
         junctionPoint = ToUnixPath(junctionPoint);
-        string output = RunShellCommand("readlink", $"\"{junctionPoint}\"");
+        string output = RunShellCommand("readlink", $"'{junctionPoint}'");
         return output.Trim();
     }
 
@@ -124,13 +124,6 @@ public static class UnixJunctions
             if (process.ExitCode != 0)
             {
                 Console.WriteLine($"UnixJunctions: Error executing script '{uniqueId}'. Exit code: {process.ExitCode}");
-
-                if (File.Exists(lockFilePath))
-                {
-                    Console.WriteLine($"UnixJunctions: Cleaning up {lockFilePath}");
-                    File.Delete(lockFilePath);
-                    return string.Empty;
-                }
             }
         }
 
