@@ -12,7 +12,7 @@
             "program": "${workspaceFolder}/src/DayZLauncher.UnixPatcher/bin/Debug/net7.0/DayZLauncher.UnixPatcher.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "stopAtEntry": false
         },
         {
