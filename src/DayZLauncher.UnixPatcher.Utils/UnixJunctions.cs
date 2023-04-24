@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -28,7 +28,7 @@ public static class UnixJunctions
     {
         targetDir = Path.GetFullPath(targetDir);
 
-        if (Directory.Exists(junctionPoint))
+        if (Directory.Exists(junctionPoint) || File.Exists(junctionPoint))
         {
             Delete(junctionPoint);
         }
