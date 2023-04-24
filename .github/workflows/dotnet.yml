@@ -26,3 +26,8 @@ jobs:
       run: dotnet build --no-restore
     - name: Run Publish Script
       run: cd scripts && ./publish.sh
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: DayZLauncher-UnixPatcher
+        path: "./unixpatcher.tar.xz"
