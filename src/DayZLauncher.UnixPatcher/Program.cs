@@ -42,8 +42,16 @@ catch (Exception e)
     File.Move(backupAssembly, targetAssembly);
 }
 
-Common.WriteLine("Deleting old user.config ...");
-LauncherConfigPatcher.RemoveOldUserConfig(userInput);
-Common.WriteLine("Launcher will still not save settings, working on that!", ConsoleColor.Yellow);
+Common.WriteLine("Applying launcher settings fix...");
+try
+{
+    await LauncherConfigPatcher.PatchLauncherConfigFile(userInput);
+    LauncherConfigPatcher.RemoveOldUserConfig(userInput);
+}
+catch
+{
+    Common.WriteLine("Failed to patch launcher settings", ConsoleColor.Red);
+    Common.WriteLine("Launcher may continue to not save properly", ConsoleColor.Yellow);
+}
 
 Common.WriteLine("Patching finished!");
