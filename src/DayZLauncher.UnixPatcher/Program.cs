@@ -1,8 +1,20 @@
 ﻿using DayZLauncher.UnixPatcher;
 using DayZLauncher.UnixPatcher.Patches;
 
-var userInput = Path.GetDirectoryName(args[0].Trim() + '/');
-if (string.IsNullOrWhiteSpace(userInput))
+string? userInput;
+if (args is null || args.Length < 1)
+{
+    Common.WriteLine("");
+    Common.WriteLine("Enter full DayZ installation path and press ENTER");
+    Console.Write("|> ");
+    userInput = Console.ReadLine();
+}
+else
+{
+    userInput = Path.GetDirectoryName(args[0].Trim() + '/');
+}
+
+if (string.IsNullOrWhiteSpace(userInput) || !Directory.Exists(userInput))
 {
     Common.WriteLine("Must provide path to DayZ installation folder as argument!", ConsoleColor.Yellow);
     return;
