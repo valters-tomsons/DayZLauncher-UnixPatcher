@@ -40,7 +40,7 @@ try
         Common.WriteLine("Utils.dll patched!", ConsoleColor.Green);
     }
 
-    File.Copy(utilsPatchPath, args[0].Trim() + "/Launcher/DayZLauncher.UnixPatcher.Utils.dll", true);
+    File.Copy(utilsPatchPath, userInput + "/Launcher/DayZLauncher.UnixPatcher.Utils.dll", true);
     Common.WriteLine("UnixPatcher.Utils.dll deployed!", ConsoleColor.Green);
 }
 catch (Exception e)
