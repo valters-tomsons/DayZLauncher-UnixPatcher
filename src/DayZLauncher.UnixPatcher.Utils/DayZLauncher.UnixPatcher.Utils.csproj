@@ -10,4 +10,9 @@
         <DebugSymbols>false</DebugSymbols>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Mono.Posix-4.5" Version="4.5.0" />
+      <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
+    </ItemGroup>
+
 </Project>
