@@ -26,6 +26,8 @@ public static class UnixJunctions
 
     public static void Create(string junctionPoint, string targetDir, bool overwrite)
     {
+        Console.WriteLine("UnixJunctions: Create() called junctionPoint='" + junctionPoint + "' ; targetDir='" + targetDir + "'");
+
         targetDir = Path.GetFullPath(targetDir);
 
         if (Directory.Exists(junctionPoint) || File.Exists(junctionPoint))
@@ -36,11 +38,16 @@ public static class UnixJunctions
         junctionPoint = ToUnixPath(junctionPoint);
         targetDir = ToUnixPath(targetDir);
 
+        junctionPoint = EscapeSingleQutoes(junctionPoint);
+        targetDir = EscapeSingleQutoes(targetDir);
+
         RunShellCommand("ln", $"-s -T '{targetDir}' '{junctionPoint}'");
     }
 
     public static void Delete(string junctionPoint)
     {
+        Console.WriteLine("UnixJunctions: Delete() called junctionPoint='" + junctionPoint + "'");
+
         if (!Directory.Exists(junctionPoint))
         {
             if (File.Exists(junctionPoint))
@@ -53,12 +60,15 @@ public static class UnixJunctions
         if (Directory.Exists(junctionPoint))
         {
             junctionPoint = ToUnixPath(junctionPoint);
+            junctionPoint = EscapeSingleQutoes(junctionPoint);
             RunShellCommand("rm", $"-r '{junctionPoint}'");
         }
     }
 
     public static bool Exists(string path)
     {
+        Console.WriteLine("UnixJunctions: Exists() called path='" + path + "'");
+
         if (!Directory.Exists(path))
         {
             return false;
@@ -67,6 +77,7 @@ public static class UnixJunctions
         try
         {
             path = ToUnixPath(path);
+            path = EscapeSingleQutoes(path);
             string output = RunShellCommand("ls", $"-la '{path}'");
             return output.Contains("->");
         }
@@ -78,7 +89,10 @@ public static class UnixJunctions
 
     public static string GetTarget(string junctionPoint)
     {
+        Console.WriteLine("UnixJunctions: GetTarget() called junctionPoint='" + junctionPoint + "'");
+
         junctionPoint = ToUnixPath(junctionPoint);
+        junctionPoint = EscapeSingleQutoes(junctionPoint);
         string output = RunShellCommand("readlink", $"'{junctionPoint}'");
         return output.Trim();
     }
@@ -150,5 +164,10 @@ public static class UnixJunctions
     private static string ToUnixPath(string windowsPath)
     {
         return windowsPath.Replace("Z:", string.Empty).Replace("\\", "/");
+    }
+
+    private static string EscapeSingleQutoes(string path)
+    {
+        return path.Replace("'", @"'\''");
     }
 }
