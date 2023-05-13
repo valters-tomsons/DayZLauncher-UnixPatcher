@@ -2,7 +2,7 @@
 
 cd ..
 
-dotnet publish -c release -o ./publish
+dotnet publish -c release -r linux-musl-x64 -o ./publish
 
 rm ./release -r
 
