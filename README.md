@@ -1,3 +1,7 @@
+# Notice
+
+Patcher is currently broken after 1.21 game update, working on a fix.
+
 # DayZLauncher-UnixPatcher
 
 Provides unofficial fixes for the DayZ launcher when running in Linux/Proton.
