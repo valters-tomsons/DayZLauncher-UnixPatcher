@@ -163,11 +163,15 @@ public static class UnixJunctions
 
     private static string ToUnixPath(string windowsPath)
     {
-        return windowsPath.Replace("Z:", string.Empty).Replace("\\", "/");
+        var result = windowsPath.Replace("Z:", string.Empty).Replace("\\", "/");
+        Console.WriteLine($"UnixJunctions.ToUnixPath: windowsPath='{windowsPath}', result='{result}'");
+        return result;
     }
 
     private static string EscapeSingleQutoes(string path)
     {
-        return path.Replace("'", @"'\''");
+        var result = path.Replace("'", @"'\''");
+        Console.WriteLine($"UnixJunctions.EscapeSingleQutoes: path='{path}', result='{result}'");
+        return result;
     }
 }
