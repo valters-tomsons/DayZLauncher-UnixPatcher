@@ -31,3 +31,8 @@ jobs:
       with:
         name: DayZLauncher-UnixPatcher
         path: "./unixpatcher.tar.xz"
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: DayZLauncher-UnixPatcher-Musl
+        path: "./unixpatcher-musl.tar.xz"
