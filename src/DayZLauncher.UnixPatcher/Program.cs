@@ -1,6 +1,9 @@
 ﻿using DayZLauncher.UnixPatcher;
 using DayZLauncher.UnixPatcher.Patches;
 
+var gameVersion = "<1.21";
+Common.WriteLine($"NOTICE: Latest known supported version: '{gameVersion}'", ConsoleColor.Yellow);
+
 string? userInput;
 if (args is null || args.Length < 1)
 {
