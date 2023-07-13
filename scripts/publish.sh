@@ -2,15 +2,24 @@
 
 cd ..
 
-dotnet publish -c release -o ./publish
+dotnet publish -c release -r linux-x64 -o ./publish
+dotnet publish -c release -r linux-musl-x64 -o ./publish-musl
 
-rm ./release -r
-
-mkdir ./release
-mkdir ./release/bin
+mkdir ./release && mkdir ./release/bin
+mkdir ./release-musl && mkdir ./release-musl/bin
 
 mv ./publish/* ./release/bin/
-mv ./release/bin/README.md ./release/README.md
-rm ./publish -d
+mv ./publish-musl/* ./release-musl/bin/
 
+mv ./release/bin/README.md ./release/README.md
+mv ./release-musl/bin/README.md ./release-musl/README.md
+
+rm ./publish -d && rm ./publish-musl -d
+
+echo "Archiving release..."
 tar -cJf unixpatcher.tar.xz --transform 's|^release/||' release/*
+
+echo "Archiving release-musl..."
+tar -cJf unixpatcher-musl.tar.xz --transform 's|^release-musl/||' release-musl/*
+
+rm ./release -r && rm ./release-musl -r
