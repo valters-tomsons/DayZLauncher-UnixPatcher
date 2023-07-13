@@ -38,8 +38,8 @@ public static class UnixJunctions
         junctionPoint = ToUnixPath(junctionPoint);
         targetDir = ToUnixPath(targetDir);
 
-        junctionPoint = EscapeSingleQutoes(junctionPoint);
-        targetDir = EscapeSingleQutoes(targetDir);
+        junctionPoint = EscapeSingleQuotes(junctionPoint);
+        targetDir = EscapeSingleQuotes(targetDir);
 
         RunShellCommand("ln", $"-s -T '{targetDir}' '{junctionPoint}'");
     }
@@ -60,7 +60,7 @@ public static class UnixJunctions
         if (Directory.Exists(junctionPoint))
         {
             junctionPoint = ToUnixPath(junctionPoint);
-            junctionPoint = EscapeSingleQutoes(junctionPoint);
+            junctionPoint = EscapeSingleQuotes(junctionPoint);
             RunShellCommand("rm", $"-r '{junctionPoint}'");
         }
     }
@@ -77,7 +77,7 @@ public static class UnixJunctions
         try
         {
             path = ToUnixPath(path);
-            path = EscapeSingleQutoes(path);
+            path = EscapeSingleQuotes(path);
             string output = RunShellCommand("ls", $"-la '{path}'");
             return output.Contains("->");
         }
@@ -92,7 +92,7 @@ public static class UnixJunctions
         Console.WriteLine("UnixJunctions: GetTarget() called junctionPoint='" + junctionPoint + "'");
 
         junctionPoint = ToUnixPath(junctionPoint);
-        junctionPoint = EscapeSingleQutoes(junctionPoint);
+        junctionPoint = EscapeSingleQuotes(junctionPoint);
         string output = RunShellCommand("readlink", $"'{junctionPoint}'");
         return output.Trim();
     }
@@ -168,7 +168,7 @@ public static class UnixJunctions
         return result;
     }
 
-    private static string EscapeSingleQutoes(string path)
+    private static string EscapeSingleQuotes(string path)
     {
         var result = path.Replace("'", @"'\''");
         Console.WriteLine($"UnixJunctions.EscapeSingleQutoes: path='{path}', result='{result}'");
