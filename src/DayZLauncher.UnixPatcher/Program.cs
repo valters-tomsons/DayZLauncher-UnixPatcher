@@ -1,8 +1,8 @@
 ﻿using DayZLauncher.UnixPatcher;
 using DayZLauncher.UnixPatcher.Patches;
 
-var gameVersion = "<1.21";
-Common.WriteLine($"NOTICE: Latest known supported version: '{gameVersion}'", ConsoleColor.Yellow);
+Common.WriteLine("NOTICE: This version will not enable settings saving, but mod installing should still work.", ConsoleColor.Yellow);
+Common.WriteLine("Be sure to verify game files and delete compatdata for `221100` before continuing!", ConsoleColor.Red);
 
 string? userInput;
 if (args is null || args.Length < 1)
@@ -31,7 +31,7 @@ if (!File.Exists(targetAssembly))
 }
 
 var backupAssembly = Common.MoveFileToBackup(targetAssembly);
-Console.WriteLine("Applying workshop mod fix...");
+Common.WriteLine("Applying workshop mods fix...");
 try
 {
     var baseDirectory = Path.GetDirectoryName(AppContext.BaseDirectory + '/');
@@ -60,6 +60,9 @@ catch (Exception e)
 Common.WriteLine("Applying launcher settings fix...");
 try
 {
+    Common.WriteLine("TODO: Implement settings patch for 1.21", ConsoleColor.Red);
+    throw new NotImplementedException("Skipping settings patch for 1.21");
+
     await LauncherConfigPatcher.PatchLauncherConfigFile(userInput);
     LauncherConfigPatcher.RemoveOldUserConfig(userInput);
 }
