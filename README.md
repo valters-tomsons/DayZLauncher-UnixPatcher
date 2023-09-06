@@ -8,8 +8,6 @@ Features:
 * ~~Fixes launcher options not saving (default page, etc.)~~
 * ~~Fixes parameters not saving~~
 
-Fixes workshop mods not installing in the official DayZ launcher when running under in Mono runtime (Wine/Proton).
-
 ## Upgrading
 
 If you are upgrading from a previous version, make sure to (in order):
