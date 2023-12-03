@@ -5,6 +5,7 @@ Provides unofficial fixes for the DayZ launcher when running in Linux/Proton.
 Features:
 * Fixes being unable to install mods from workshop
 * Fixes settings always being reset
+* Fixes settings not being saved
 
 ## Upgrading
 
