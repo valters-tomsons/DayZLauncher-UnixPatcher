@@ -60,11 +60,8 @@ catch (Exception e)
 Common.WriteLine("Applying launcher settings fix...");
 try
 {
-    Common.WriteLine("TODO: Implement settings patch for 1.21", ConsoleColor.Red);
-    throw new NotImplementedException("Skipping settings patch for 1.21");
-
-    await LauncherConfigPatcher.PatchLauncherConfigFile(userInput);
-    LauncherConfigPatcher.RemoveOldUserConfig(userInput);
+    LauncherConfigPatcher.ApplySettingsBandAid(userInput);
+    Common.WriteLine("Settings fix applied!", ConsoleColor.Green);
 }
 catch
 {
