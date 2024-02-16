@@ -27,12 +27,12 @@ jobs:
     - name: Run Publish Script
       run: cd scripts && ./publish.sh
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: DayZLauncher-UnixPatcher
         path: "./unixpatcher.tar.xz"
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: DayZLauncher-UnixPatcher-Musl
         path: "./unixpatcher-musl.tar.xz"
