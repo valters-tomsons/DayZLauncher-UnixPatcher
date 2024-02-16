@@ -36,6 +36,11 @@ jobs:
       with:
         name: DayZLauncher-UnixPatcher-Musl
         path: "./unixpatcher-musl.tar.xz"
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: CHANGELOG
+        path: "./CHANGELOG.txt"
 
   release:
     name: Upload Release Assets
@@ -50,6 +55,10 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: DayZLauncher-UnixPatcher-Musl
+    - name: Download Changelog
+      uses: actions/download-artifact@v4
+      with:
+        name: CHANGELOG
     - name: Generate release tag
       id: generate_release_tag
       uses: alexvingg/next-release-tag@v1.0.4
@@ -62,7 +71,7 @@ jobs:
         files: |
           unixpatcher.tar.xz
           unixpatcher-musl.tar.xz
-        body_path: CHANGELOG.txt
+        # body_path: ${{ github.workspace }}-CHANGELOG.txt
         tag_name: ${{ steps.generate_release_tag.outputs.release_tag }}
         release_name: Release ${{ steps.generate_release_tag.outputs.release_tag }}
         generate_release_notes: true
