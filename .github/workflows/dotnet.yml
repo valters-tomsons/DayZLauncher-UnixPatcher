@@ -41,17 +41,14 @@ jobs:
     name: Upload Release Assets
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET 7 SDK
-      uses: actions/setup-dotnet@v3
+    - name: Download release
+      uses: actions/download-artifact@v4
       with:
-        dotnet-version: 7.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Run Publish Script
-      run: cd scripts && ./publish.sh
+        name: DayZLauncher-UnixPatcher
+    - name: Download release-musl
+      uses: actions/download-artifact@v4
+      with:
+        name: DayZLauncher-UnixPatcher-Musl
     - name: Generate release tag
       id: generate_release_tag
       uses: alexvingg/next-release-tag@v1.0.4
@@ -64,7 +61,7 @@ jobs:
         files: |
           unixpatcher.tar.xz
           unixpatcher-musl.tar.xz
-        body_path: ${{ github.workspace }}-CHANGELOG.txt
+        body_path: CHANGELOG.txt
         tag_name: ${{ steps.generate_release_tag.outputs.release_tag }}
         release_name: Release ${{ steps.generate_release_tag.outputs.release_tag }}
         generate_release_notes: true
