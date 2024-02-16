@@ -39,6 +39,7 @@ jobs:
 
   release:
     name: Upload Release Assets
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Download release
