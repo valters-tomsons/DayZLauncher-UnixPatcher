@@ -7,6 +7,6 @@ changelog:
     # authors:
       # - octocat
   categories:
-    - title: Default
+    - title: Changed temp directory
       labels:
-        - default
+        - release

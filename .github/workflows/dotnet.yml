@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: Build solution
+    name: Build Solution
     runs-on: ubuntu-latest
 
     steps:
