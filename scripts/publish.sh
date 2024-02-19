@@ -8,6 +8,9 @@ dotnet publish -c release -r linux-musl-x64 -o ./publish-musl
 mkdir ./release && mkdir ./release/bin
 mkdir ./release-musl && mkdir ./release-musl/bin
 
+cp ./scripts/patch.sh ./release/patch.sh
+cp ./scripts/patch.sh ./release-musl/patch.sh
+
 mv ./publish/* ./release/bin/
 mv ./publish-musl/* ./release-musl/bin/
 

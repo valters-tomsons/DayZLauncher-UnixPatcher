@@ -1,1 +1,7 @@
-Fix for steamdeck - rm ./!Linux file not found.
+Changes:
+- New patch installation script
+- Addition - New DayZ absolute path detection function on launch
+
+Fixes:
+- Fix for steamdeck - Renamed temp folder (Error rm ./!Linux file not found / can't touch file etc.)
+- Fix for steamdeck / external libraries - Now works when game is installed on a different drive (Changed ToUnixPath function)
