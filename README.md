@@ -1,5 +1,50 @@
 # DayZLauncher-UnixPatcher
 
+## Fork details
+This is a fork of Valters-Tomsons [DayZLauncher-UnixPatcher](https://github.com/valters-tomsons/DayZLauncher-UnixPatcher).
+
+This fork provides a few changes / fixes to the patcher.
+
+##
+
+### Changes
+1. Added a patch.sh script to simplify installation (not completed, but usable).
+2. Renamed the temp doriectory from `!Linux` to `linux-temp` as some systems wouldn't allow the shell to access the `!Linux` directory (File not found errors).
+3. Added a function to locate the absolute path of the DayZ installation.
+4. Changed the UnixJunctions function accept any drive letter and use absolute path, this accomodates for cases where the installation is on an external drive / SD card.
+
+### Known issues
+1. On some occasions, closing the launcher during a 'preventative sync' causes the launcher to delete the workshop mods and force Steam to redownload them.
+2. Verifying the mod signatures sometimes fails. This is due to the Launcher using 'Hash algorithm name' whereas Mono (the wine .Net equivalent) expects a 'Hash algorithm OID' instead. I am not completely sure of the implicarions of this yet.
+3. On very rare ocassions the launcher fails to load the patch and displays an error message on launch. Relaunching seems to solve this.
+4. Although this does enable workshop functionality it doesn't fix the poor performance of the launcher. If like me you are running a stupid amount of mods it can be very slow to initialize. DO NOT interrupt it or things will get messed up!
+
+### Installation
+1. Make sure that you have deleted your compatdata directory and validated game files first!: \
+   ``` (Example) rm -rf /$HOME/.steam/steam/steamapps/compatdata/221100 ``` \
+   ``` (Manually verify game files in steam) ```
+2. Download the latest release from here and unzip: \
+   ``` wget https://github.com/djedu/DayZLauncher-UnixPatcher/releases/latest/download/unixpatcher.tar.xz```
+   ``` tar -xvf ./unixpatcher.tar.xz```
+3. Change the patch.sh file to be executable: \
+   ``` chmod +x ./unixpatcher/patch.sh ```
+4. Run the patch: \
+   ``` ./unixpatcher/patch.sh ```
+
+### Disclaimer
+As with the original project, use this at your own risk! \
+This patch may cause your mods to vanish and believe me I know the pain, running with over 1300 workshop mods...\
+Other issues may happen to the stability of the launcher and game! \
+It is not known for this patch to catch battleye's attention as it doesn't modify the game in any way but that could change without notice! \
+Again, USE THIS AT YOUR OWN RISK!
+
+### Issues
+If you have any issues with any of the modifications I have made please get in touch, but for any other issues please check out the [original repository](https://github.com/valters-tomsons/DayZLauncher-UnixPatcher) first.
+
+##
+
+## Original README:
+
 Provides unofficial fixes for the DayZ launcher when running in Linux/Proton.
 
 Features:

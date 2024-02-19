@@ -3,6 +3,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Linq;
+
 
 namespace DayZLauncher.UnixPatcher.Utils;
 
@@ -15,12 +19,125 @@ namespace DayZLauncher.UnixPatcher.Utils;
 public static class UnixJunctions
 {
     private static bool IsRunningOnMono => Type.GetType("Mono.Runtime") != null;
-
+    private static string steamFolder;
+    private static string steamDrive;
+    private static string steamPath;
+    private static string appFolder;
+    private static string absolutePath;
+    
     static UnixJunctions()
     {
         if (IsRunningOnMono)
         {
             Console.WriteLine("UnixJunctions: running on Mono runtime!");
+        }
+        try
+        {
+            List<string> LibraryFolders()
+            {
+                string wineFolder = @"C:\Program Files (x86)\Steam\steamapps";
+                string wineFile = wineFolder + @"\libraryfolders.vdf";
+                Regex wineRegex = new Regex("[A-Z]:\\\\.[A-z+.]*");
+                Console.WriteLine("UnixJunctions.LibraryFolders: Searching for Linux Steam installation...");
+                using (StreamReader reader = new StreamReader(wineFile))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        Match match = wineRegex.Match(line);
+                        if (match.Success)
+                        {
+                            steamPath = Regex.Unescape(match.Value).Replace(@"\\", @"\");
+                            Console.WriteLine($"UnixJunctions.LibraryFolders: Found Linux Steam installation folder in: {steamPath}");
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"UnixJunctions.LibraryFolders: Error finding Linux Steam installation! Patch may not work correctly!");
+                        }
+                    }
+                }
+
+                List<string> libraryFolders = new List<string>();
+                string libraryFile = steamPath + @"\steamapps\libraryfolders.vdf";
+                Regex libraryRegex = new Regex(@"path\x22\s*\x22([A-Za-z0-9+\x2F+\x2D+\x2E]*)\x22");
+                Console.WriteLine("UnixJunctions.LibraryFolders: Searching for library folders...");
+                using (StreamReader reader = new StreamReader(libraryFile))
+                {
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        Match match = libraryRegex.Match(line);
+                        if (match.Success)
+                        {
+                            string matchBuild = Regex.Unescape(match.Groups[1].Value) + @"/steamapps/common";
+                            steamFolder = "Z:" + matchBuild.Replace(@"/", @"\");
+                            libraryFolders.Add(steamFolder);
+                            Console.WriteLine($"UnixJunctions.LibraryFolders: Found steam library folder at: {steamFolder}");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"UnixJunctions.LibraryFolders: Error finding library folders! Patch may not work correctly!");
+                        }
+                    }
+                }
+                return libraryFolders;
+            }
+            
+            string AppFolder()
+            {
+                var appFolders = LibraryFolders().Select(x => x);
+                Console.WriteLine("UnixJunctions.AppFolder: Searching the library for DayZ");
+                foreach (var folder in appFolders)
+                {
+                    try
+                    {
+                        Console.Write($"UnixJunctions.AppFolder: Searching for DayZ in {folder}...");
+                        var matches = Directory.GetDirectories(folder, "DayZ");
+                        if (matches.Length >= 1)
+                        {
+                            appFolder = matches[0];
+                            Console.WriteLine($"UnixJunctions.AppFolder: Found app folder: {appFolder}");
+                            return appFolder;
+                        }
+                        else
+                        {
+                            Console.WriteLine($"UnixJunctions.AppFolder: No DayZ installation found in {folder}!");
+                        }
+                    }
+                    catch (DirectoryNotFoundException)
+                    {
+                        Console.WriteLine($"UnixJunctions.AppFolder: No DayZ installation found! Patch may not work correctly!");
+                        //continue;
+                    }
+
+                }
+                return null; // Add a return statement to ensure a value is always returned
+            }
+            string dayZPath = AppFolder();
+            if (dayZPath != null)
+            {
+                steamDrive = Path.GetPathRoot(dayZPath).Replace("\\", "");
+                int start = steamDrive.Length;
+                int end = dayZPath.IndexOf("\\steamapps");
+                if (end > start)
+                {
+                    absolutePath = dayZPath.Substring(start, end - start);
+                    Console.WriteLine($"UnixJunctions.AppFolder: Found DayZ path in {absolutePath}");
+                }
+                else
+                {
+                    Console.WriteLine("UnixJunctions.AppFolder: Invalid DayZ path! Patch may not work correctly!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("UnixJunctions.AppFolder: DayZ installation not found! Patch may not work correctly!");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("UnixJunctions: Exception locating DayZ library: " + ex.Message);
         }
     }
 
@@ -102,7 +219,7 @@ public static class UnixJunctions
         Console.WriteLine("UnixJunctions.RunShellCommand: command= " + command + " ;arguments= " + arguments);
 
         var gameLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        var basePath = gameLocation + @"\!Linux";
+        var basePath = gameLocation + @"\linux-temp";
         Directory.CreateDirectory(basePath);
 
         string uniqueId = Guid.NewGuid().ToString("N");
@@ -140,7 +257,7 @@ public static class UnixJunctions
                 Console.WriteLine($"UnixJunctions: Error executing script '{uniqueId}'. Exit code: {process.ExitCode}");
             }
         }
-
+        
         while (!File.Exists(tempOutputPath))
         {
             Console.WriteLine("UnixJunctions.RunShellCommand: waiting for output file " + uniqueId);
@@ -152,7 +269,7 @@ public static class UnixJunctions
             Console.WriteLine("UnixJunctions.RunShellCommand: waiting for unix write unlock " + uniqueId);
             Thread.Sleep(50);
         }
-
+        
         // Read the output file
         string scriptOutput = File.ReadAllText(tempOutputPath);
         Console.WriteLine($"UnixJunctions.RunShellCommand: {uniqueId} output= {scriptOutput}");
@@ -163,7 +280,7 @@ public static class UnixJunctions
 
     private static string ToUnixPath(string windowsPath)
     {
-        var result = windowsPath.Replace("Z:", string.Empty).Replace("\\", "/");
+        var result = Regex.Replace(windowsPath, @"[A-Z]:", $"{absolutePath}").Replace("\\", "/");
         Console.WriteLine($"UnixJunctions.ToUnixPath: windowsPath='{windowsPath}', result='{result}'");
         return result;
     }

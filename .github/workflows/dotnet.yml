@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-
+    name: Build Solution
     runs-on: ubuntu-latest
 
     steps:
@@ -27,12 +27,53 @@ jobs:
     - name: Run Publish Script
       run: cd scripts && ./publish.sh
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: DayZLauncher-UnixPatcher
         path: "./unixpatcher.tar.xz"
     - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v4
       with:
         name: DayZLauncher-UnixPatcher-Musl
         path: "./unixpatcher-musl.tar.xz"
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: CHANGELOG
+        path: "./CHANGELOG.txt"
+
+  release:
+    name: Upload Release Assets
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download release
+      uses: actions/download-artifact@v4
+      with:
+        name: DayZLauncher-UnixPatcher
+    - name: Download release-musl
+      uses: actions/download-artifact@v4
+      with:
+        name: DayZLauncher-UnixPatcher-Musl
+    - name: Download Changelog
+      uses: actions/download-artifact@v4
+      with:
+        name: CHANGELOG
+    - name: Generate release tag
+      id: generate_release_tag
+      uses: alexvingg/next-release-tag@v1.0.4
+      with:
+        github_token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+        tag_prefix: ''
+    - name: Release with Notes
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          unixpatcher.tar.xz
+          unixpatcher-musl.tar.xz
+        body_path: CHANGELOG.txt
+        tag_name: ${{ steps.generate_release_tag.outputs.release_tag }}
+        release_name: Release ${{ steps.generate_release_tag.outputs.release_tag }}
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
