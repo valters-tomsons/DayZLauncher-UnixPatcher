@@ -163,7 +163,8 @@ public static class UnixJunctions
 
     private static string ToUnixPath(string windowsPath)
     {
-        var result = windowsPath.Replace("Z:", string.Empty).Replace("\\", "/");
+        // Skip drive letter (e.g. 'Z:')
+        var result = windowsPath.Substring(2).Replace("\\", "/");
         Console.WriteLine($"UnixJunctions.ToUnixPath: windowsPath='{windowsPath}', result='{result}'");
         return result;
     }
