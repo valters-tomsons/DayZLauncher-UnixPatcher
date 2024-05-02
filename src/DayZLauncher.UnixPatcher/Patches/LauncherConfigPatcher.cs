@@ -11,6 +11,7 @@ public static class LauncherConfigPatcher
 
         if (!Directory.Exists(prefixPath))
         {
+            Common.WriteLine($"Prefix expected at '{prefixPath}'", ConsoleColor.DarkYellow);
             var systemPrefix = Common.TryGetGamePrefixFromSystem();
             if (systemPrefix is null)
             {
