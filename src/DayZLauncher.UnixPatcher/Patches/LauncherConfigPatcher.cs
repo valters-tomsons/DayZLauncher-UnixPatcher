@@ -23,7 +23,8 @@ public static class LauncherConfigPatcher
 
         Common.WriteLine("Proton prefix found!");
 
-        var bohemiaPath = $"{prefixPath}/drive_c/users/steamuser/AppData/Local/Bohemia Interactive a.s.";
+        var appDataLocal = $"{prefixPath}/drive_c/users/steamuser/AppData/Local/";
+        var bohemiaPath = Directory.GetDirectories(appDataLocal, "Bohemia*Interactive*", SearchOption.TopDirectoryOnly).FirstOrDefault();
         if (!Directory.Exists(bohemiaPath))
         {
             Common.WriteLine($"Failed to find Bohemia settings folder at: '{bohemiaPath}'", ConsoleColor.Red);
