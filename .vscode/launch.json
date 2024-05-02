@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/DayZLauncher.UnixPatcher/bin/Debug/net7.0/DayZLauncher.UnixPatcher.dll",
+            "program": "${workspaceFolder}/src/DayZLauncher.UnixPatcher/bin/Debug/net8.0/DayZLauncher.UnixPatcher.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
