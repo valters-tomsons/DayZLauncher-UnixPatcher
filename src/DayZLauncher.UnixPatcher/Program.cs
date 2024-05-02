@@ -4,9 +4,18 @@ using DayZLauncher.UnixPatcher.Patches;
 Common.WriteLine("NOTICE: This version will not enable settings saving, but mod installing should still work.", ConsoleColor.Yellow);
 Common.WriteLine("Be sure to verify game files and delete compatdata for `221100` before continuing!", ConsoleColor.Red);
 
+var gameSystemPath = Common.TryGetGameInstallPathFromSystem();
+var gameFound = !string.IsNullOrWhiteSpace(gameSystemPath);
+
 string? userInput;
-if (args is null || args.Length < 1)
+if (gameFound)
 {
+    Common.WriteLine($"Found DayZ installation at '{gameSystemPath}'");
+    userInput = gameSystemPath;
+}
+else if (args is null || args.Length < 1)
+{
+
     Common.WriteLine("");
     Common.WriteLine("Enter full DayZ installation path and press ENTER");
     Console.Write("> ");

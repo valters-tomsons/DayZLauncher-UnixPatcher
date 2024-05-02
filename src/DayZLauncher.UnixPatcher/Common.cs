@@ -22,6 +22,20 @@ public static class Common
         return newPath;
     }
 
+    public static string? TryGetGameInstallPathFromSystem()
+    {
+        var homePath = Environment.GetEnvironmentVariable("HOME");
+        var gameInstallPath = $"{homePath}/.steam/steam/steamapps/common/DayZ";
+
+        if (Directory.Exists(gameInstallPath))
+        {
+            WriteLine($"Game data found from system: '{gameInstallPath}'");
+            return gameInstallPath;
+        }
+
+        return null;
+    }
+
     public static string? TryGetGamePrefixFromSystem()
     {
         var homePath = Environment.GetEnvironmentVariable("HOME");
