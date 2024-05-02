@@ -7,7 +7,7 @@ public static class LauncherConfigPatcher
 {
     public static void ApplySettingsBandAid(string gamePath)
     {
-        var prefixPath = $"{gamePath}/../../compatdata/221100/pfx";
+        var prefixPath = Path.GetFullPath($"{gamePath}/../../compatdata/221100/pfx");
 
         if (!Directory.Exists(prefixPath))
         {
