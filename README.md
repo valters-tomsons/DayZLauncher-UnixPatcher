@@ -9,7 +9,7 @@ Features:
 
 ## Upgrading
 
-If you are upgrading from a previous version, make sure to (in order):
+If you are upgrading from a previous version, make sure to (**in order**):
 * delete `steamapps/compatdata/221100` folder
 * verify game files
 * start the game launcher once
