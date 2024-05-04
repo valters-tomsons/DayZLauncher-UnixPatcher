@@ -33,9 +33,10 @@ If you are upgrading from a previous version, make sure to (**in order**):
 
 ## Usage:
 
+1. Start DayZ launcher at least once
 1. Download and extract the latest release
-2. Run `DayZLauncher.UnixPatcher` in terminal and follow the instructions
-3. If you see a success message, boot up DayZ and enjoy!
+1. Run `DayZLauncher.UnixPatcher` in terminal and follow the instructions
+1. If you see a success message, boot up DayZ and enjoy!
 
 ! **Patch will need to be re-applied after game updates.**
 
