@@ -4,14 +4,12 @@
     <OutputType>Exe</OutputType>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <PublishSingleFile>true</PublishSingleFile>
-    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
     <NoWarn>NU1702;1702</NoWarn> <!-- Ignore warning about incompatible frameworks -->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <SelfContained>true</SelfContained>
-    <DebugType>embedded</DebugType>
+    <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
 
@@ -20,22 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../DayZLauncher.UnixPatcher.Utils/DayZLauncher.UnixPatcher.Utils.csproj">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-    </ProjectReference>
+    <ProjectReference Include="../DayZLauncher.UnixPatcher.Utils/DayZLauncher.UnixPatcher.Utils.csproj" />
 
     <None Include="../../README.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
-  <!-- These two libraries are needed outside the bundle for Cecil to reference a .NET Framework library from a modern .NET runtime -->
-  <Target Name="CopyFilesFromBundle" AfterTargets="Publish">
-    <ItemGroup>
-      <FilesToCopyFromBundle Include="@(FilesToBundle)" Condition="$([System.String]::new('%(Filename)').ToLower().Contains('mscorlib')) AND ('%(Extension)' == '.dll')" />
-      <FilesToCopyFromBundle Include="@(FilesToBundle)" Condition="$([System.String]::new('%(Filename)').ToLower().Contains('system.private.corelib')) AND ('%(Extension)' == '.dll')" />
-    </ItemGroup>
-    <Copy SourceFiles="@(FilesToCopyFromBundle)" DestinationFolder="$(PublishDir)" />
-    <Message Text="Copied corelib from bundle to '$(PublishDir)'" Importance="high" />
-  </Target>
 </Project>
