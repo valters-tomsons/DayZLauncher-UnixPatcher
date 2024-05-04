@@ -7,7 +7,7 @@ var gameFound = !string.IsNullOrWhiteSpace(gameSystemPath);
 string? userInput;
 if (gameFound)
 {
-    Common.WriteLine($"Found DayZ installation at '{gameSystemPath}'");
+    Common.WriteLine($"Found DayZ installation at '{gameSystemPath}'", ConsoleColor.DarkGreen);
     userInput = gameSystemPath;
 }
 else if (args is null || args.Length < 1)

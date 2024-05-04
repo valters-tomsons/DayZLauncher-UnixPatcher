@@ -15,10 +15,10 @@ public static class UtilsAssemblyPatcher
 
         var targetJunctionsTypeDef = targetDef.MainModule.GetType("Utils.IO.Junctions");
 
-        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "Create", new List<OpCode> { OpCodes.Ldarg_0, OpCodes.Ldarg_1, OpCodes.Ldarg_2 });
-        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "Delete", new List<OpCode> { OpCodes.Ldarg_0 });
-        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "Exists", new List<OpCode> { OpCodes.Ldarg_0 });
-        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "GetTarget", new List<OpCode> { OpCodes.Ldarg_0 });
+        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "Create", [OpCodes.Ldarg_0, OpCodes.Ldarg_1, OpCodes.Ldarg_2]);
+        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "Delete", [OpCodes.Ldarg_0]);
+        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "Exists", [OpCodes.Ldarg_0]);
+        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "GetTarget", [OpCodes.Ldarg_0]);
 
         return targetDef;
     }
