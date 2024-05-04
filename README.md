@@ -21,7 +21,7 @@ If you are upgrading from a previous version, make sure to (**in order**):
 1. delete `steamapps/compatdata/221100` folder
 1. verify game files
 1. start the DayZ launcher once
-1. apply the patch using `./bin/DayZLauncher.UnixPatcher`
+1. follow [installation](#usage)
 
 ## Notices
 
@@ -34,7 +34,7 @@ If you are upgrading from a previous version, make sure to (**in order**):
 ## Usage:
 
 1. Download and extract the latest release
-2. Run `bin/DayZLauncher.UnixPatcher` in terminal and follow the instructions
+2. Run `DayZLauncher.UnixPatcher` in terminal and follow the instructions
 3. If you see a success message, boot up DayZ and enjoy!
 
 ! **Patch will need to be re-applied after game updates.**
