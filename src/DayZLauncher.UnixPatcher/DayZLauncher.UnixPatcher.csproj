@@ -30,12 +30,12 @@
   </ItemGroup>
 
   <!-- These two libraries are needed outside the bundle for Cecil to reference a .NET Framework library from a modern .NET runtime -->
-  <Target Name="CopyFilesToRemoveFromBundle" AfterTargets="Publish">
+  <Target Name="CopyFilesFromBundle" AfterTargets="Publish">
     <ItemGroup>
-      <FilesToRemoveFromBundle Include="@(FilesToBundle)" Condition="$([System.String]::new('%(Filename)').ToLower().Contains('mscorlib')) AND ('%(Extension)' == '.dll')" />
-      <FilesToRemoveFromBundle Include="@(FilesToBundle)" Condition="$([System.String]::new('%(Filename)').ToLower().Contains('system.private.corelib')) AND ('%(Extension)' == '.dll')" />
+      <FilesToCopyFromBundle Include="@(FilesToBundle)" Condition="$([System.String]::new('%(Filename)').ToLower().Contains('mscorlib')) AND ('%(Extension)' == '.dll')" />
+      <FilesToCopyFromBundle Include="@(FilesToBundle)" Condition="$([System.String]::new('%(Filename)').ToLower().Contains('system.private.corelib')) AND ('%(Extension)' == '.dll')" />
     </ItemGroup>
-    <Copy SourceFiles="@(FilesToRemoveFromBundle)" DestinationFolder="$(PublishDir)" />
-    <Message Text="Copied files to remove from bundle to '$(PublishDir)'" Importance="high" />
+    <Copy SourceFiles="@(FilesToCopyFromBundle)" DestinationFolder="$(PublishDir)" />
+    <Message Text="Copied corelib from bundle to '$(PublishDir)'" Importance="high" />
   </Target>
 </Project>
