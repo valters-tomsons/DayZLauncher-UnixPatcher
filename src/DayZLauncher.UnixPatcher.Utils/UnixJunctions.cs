@@ -163,10 +163,10 @@ public static class UnixJunctions
         return EscapeSymbols(result);
     }
 
-    private static readonly char[] DeniedSymbols = new char[]{'\'', ';', ','};
+    private static readonly char[] BadSymbols = new char[] { '\'', '"', ';', ',', '\n', '\r', '$', '`', '&', '!', '|', '<', '>'};
     private static string EscapeSymbols(string path)
     {
-        var buffer = path.Split(DeniedSymbols, StringSplitOptions.RemoveEmptyEntries);
+        var buffer = path.Split(BadSymbols, StringSplitOptions.RemoveEmptyEntries);
         var result = string.Join(string.Empty, buffer);
         Console.WriteLine($"UnixJunctions.EscapeSymbols: path='{path}', result='{result}'");
         return result;
