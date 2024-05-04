@@ -18,10 +18,10 @@ Provides unofficial fixes for the DayZ launcher when running on Linux/Proton & S
 ## Upgrading
 
 If you are upgrading from a previous version, make sure to (**in order**):
-* delete `steamapps/compatdata/221100` folder
-* verify game files
-* start the game launcher once
-* apply the patch using `./bin/DayZLauncher.UnixPatcher`
+1. delete `steamapps/compatdata/221100` folder
+1. verify game files
+1. start the DayZ launcher once
+1. apply the patch using `./bin/DayZLauncher.UnixPatcher`
 
 ## Notices
 
@@ -33,14 +33,10 @@ If you are upgrading from a previous version, make sure to (**in order**):
 
 ## Usage:
 
-1. Download or build the patcher
-
-2. Launch `DayZLauncher.UnixPatcher` with full DayZ installation path as argument
-
-(eg. `./DayZLauncher.UnixPatcher "/primary/SteamLibrary/steamapps/common/DayZ/"`)
-
+1. Download and extract the latest release
+2. Run `bin/DayZLauncher.UnixPatcher` in terminal and follow the instructions
 3. If you see a success message, boot up DayZ and enjoy!
 
-! **Patch may need to be re-applied after game updates.**
+! **Patch will need to be re-applied after game updates.**
 
 ![image](https://user-images.githubusercontent.com/4209639/233074283-b42db574-c6cd-42a8-8371-0a632b6c349d.png)

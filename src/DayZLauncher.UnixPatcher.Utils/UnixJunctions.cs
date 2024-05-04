@@ -38,9 +38,6 @@ public static class UnixJunctions
         junctionPoint = ToUnixPath(junctionPoint);
         targetDir = ToUnixPath(targetDir);
 
-        junctionPoint = EscapeSingleQuotes(junctionPoint);
-        targetDir = EscapeSingleQuotes(targetDir);
-
         RunShellCommand("ln", $"-s -T '{targetDir}' '{junctionPoint}'");
     }
 
@@ -60,7 +57,6 @@ public static class UnixJunctions
         if (Directory.Exists(junctionPoint))
         {
             junctionPoint = ToUnixPath(junctionPoint);
-            junctionPoint = EscapeSingleQuotes(junctionPoint);
             RunShellCommand("rm", $"-r '{junctionPoint}'");
         }
     }
@@ -77,7 +73,6 @@ public static class UnixJunctions
         try
         {
             path = ToUnixPath(path);
-            path = EscapeSingleQuotes(path);
             string output = RunShellCommand("ls", $"-la '{path}'");
             return output.Contains("->");
         }
@@ -92,7 +87,6 @@ public static class UnixJunctions
         Console.WriteLine("UnixJunctions: GetTarget() called junctionPoint='" + junctionPoint + "'");
 
         junctionPoint = ToUnixPath(junctionPoint);
-        junctionPoint = EscapeSingleQuotes(junctionPoint);
         string output = RunShellCommand("readlink", $"'{junctionPoint}'");
         return output.Trim();
     }
@@ -166,13 +160,15 @@ public static class UnixJunctions
         // Skip drive letter (e.g. 'Z:')
         var result = windowsPath.Substring(2).Replace("\\", "/");
         Console.WriteLine($"UnixJunctions.ToUnixPath: windowsPath='{windowsPath}', result='{result}'");
-        return result;
+        return EscapeSymbols(result);
     }
 
-    private static string EscapeSingleQuotes(string path)
+    private static readonly char[] DeniedSymbols = new char[]{'\'', ';', ','};
+    private static string EscapeSymbols(string path)
     {
-        var result = path.Replace("'", @"'\''");
-        Console.WriteLine($"UnixJunctions.EscapeSingleQutoes: path='{path}', result='{result}'");
+        var buffer = path.Split(DeniedSymbols, StringSplitOptions.RemoveEmptyEntries);
+        var result = string.Join(string.Empty, buffer);
+        Console.WriteLine($"UnixJunctions.EscapeSymbols: path='{path}', result='{result}'");
         return result;
     }
 }
