@@ -1,11 +1,19 @@
 # DayZLauncher-UnixPatcher
 
-Provides unofficial fixes for the DayZ launcher when running in Linux/Proton.
+![Screenshot from 2023-04-19 11-19-32](https://user-images.githubusercontent.com/4209639/233074371-563ca89b-2dda-4d90-b2fe-ef7045ea653b.png)
 
-Features:
+Provides unofficial fixes for the DayZ launcher when running on Linux/Proton & SteamOS.
+
+# Features
+
 * Fixes being unable to install mods from workshop
 * Fixes settings always being reset
 * Fixes settings not being saved
+
+## Limitations
+
+* Might not work if game is installed on non-primary drive (e.g. SD card), see [this fork](https://github.com/djedu/DayZLauncher-UnixPatcher).
+* Any number of fixes might break after game updates
 
 ## Upgrading
 
@@ -15,13 +23,13 @@ If you are upgrading from a previous version, make sure to (**in order**):
 * start the game launcher once
 * apply the patch using `./bin/DayZLauncher.UnixPatcher`
 
-## Notice
+## Notices
 
-**I am not affiliated, associated, authorized, endorsed by, or in any way officially connected with Bohemia Interactive, a.s., or any of its subsidiaries or its affiliates.**
+1. The author of the software is not affiliated, associated, authorized, endorsed by, or in any way officially connected with Bohemia Interactive, a.s., or any of its subsidiaries or affiliates. The use of any trademarks, logos, or brand names is for identification purposes only and does not imply endorsement or affiliation.
 
-If the patcher utility or patch itself destroys your computer, I am not to be held accountable for you running random software on your computer. 
+2. By utilizing the provided software, the user acknowledges and accepts all potential risks and consequences, including but not limited to **spontaneous combustion, implosion, or vaporization of their computer system**. The author of the software shall not be held liable for any damages or losses incurred as a result of the software's operation.
 
-While this patch *should* be safe from detection by Battleye because it doesn't modify anything from the game itself. That being said, use at your own risk and it *could* change.
+*TLDR:* Use at your own risk.
 
 ## Usage:
 
@@ -35,8 +43,4 @@ While this patch *should* be safe from detection by Battleye because it doesn't 
 
 ! **Patch may need to be re-applied after game updates.**
 
-## Screenshots
-
 ![image](https://user-images.githubusercontent.com/4209639/233074283-b42db574-c6cd-42a8-8371-0a632b6c349d.png)
-
-![Screenshot from 2023-04-19 11-19-32](https://user-images.githubusercontent.com/4209639/233074371-563ca89b-2dda-4d90-b2fe-ef7045ea653b.png)
