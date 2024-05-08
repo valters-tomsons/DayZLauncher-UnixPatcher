@@ -63,18 +63,4 @@ catch (Exception e)
     File.Move(backupAssembly, targetAssembly);
 }
 
-Common.WriteLine("Applying launcher settings fix...");
-try
-{
-    LauncherConfigPatcher.ApplySettingsBandAid(userInput);
-    await LauncherConfigPatcher.PatchLauncherConfigFile(userInput);
-    LauncherConfigPatcher.RemoveOldUserConfig(userInput);
-    Common.WriteLine("Settings fix applied!", ConsoleColor.Green);
-}
-catch
-{
-    Common.WriteLine("Failed to patch launcher settings", ConsoleColor.Red);
-    Common.WriteLine("Launcher may continue to not save properly", ConsoleColor.Yellow);
-}
-
 Common.WriteLine("Patching finished!");
