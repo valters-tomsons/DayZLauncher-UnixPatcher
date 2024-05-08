@@ -39,7 +39,7 @@ public static class LauncherConfigPatcher
         }
     }
 
-        public static async Task PatchLauncherConfigFile(string gamePath)
+    public static async Task PatchLauncherConfigFile(string gamePath)
     {
         var configFilePath = $"{gamePath}/DayZLauncher.exe.config";
         string? newXml = string.Empty;
