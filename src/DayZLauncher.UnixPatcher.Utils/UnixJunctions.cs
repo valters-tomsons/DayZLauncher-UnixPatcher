@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -26,13 +26,14 @@ public static class UnixJunctions
     {
         if (IsRunningOnMono)
         {
+            Log("UnixJunctions: running on Mono runtime!");
             Directory.CreateDirectory(LinuxLauncherDataPath);
         }
     }
 
     public static void Create(string junctionPoint, string targetDir, bool overwrite)
     {
-        Console.WriteLine("UnixJunctions: Create() called junctionPoint='" + junctionPoint + "' ; targetDir='" + targetDir + "'");
+        Log("UnixJunctions: Create() called junctionPoint='" + junctionPoint + "' ; targetDir='" + targetDir + "'");
 
         targetDir = Path.GetFullPath(targetDir);
 
@@ -49,7 +50,7 @@ public static class UnixJunctions
 
     public static void Delete(string junctionPoint)
     {
-        Console.WriteLine("UnixJunctions: Delete() called junctionPoint='" + junctionPoint + "'");
+        Log("UnixJunctions: Delete() called junctionPoint='" + junctionPoint + "'");
 
         if (!Directory.Exists(junctionPoint))
         {
@@ -69,7 +70,7 @@ public static class UnixJunctions
 
     public static bool Exists(string path)
     {
-        Console.WriteLine("UnixJunctions: Exists() called path='" + path + "'");
+        Log("UnixJunctions: Exists() called path='" + path + "'");
 
         if (!Directory.Exists(path))
         {
@@ -90,7 +91,7 @@ public static class UnixJunctions
 
     public static string GetTarget(string junctionPoint)
     {
-        Console.WriteLine("UnixJunctions: GetTarget() called junctionPoint='" + junctionPoint + "'");
+        Log("UnixJunctions: GetTarget() called junctionPoint='" + junctionPoint + "'");
 
         junctionPoint = ToUnixPath(junctionPoint);
         string output = RunShellCommand("readlink", $"'{junctionPoint}'");
@@ -99,17 +100,13 @@ public static class UnixJunctions
 
     private static string RunShellCommand(string command, string arguments)
     {
-        Console.WriteLine("UnixJunctions.RunShellCommand: command= " + command + " ;arguments= " + arguments);
-
-        var gameLocation = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        var basePath = gameLocation + @"\LinuxLauncherData";
-        Directory.CreateDirectory(basePath);
+        Log("UnixJunctions.RunShellCommand: command= " + command + " ;arguments= " + arguments);
 
         string uniqueId = Guid.NewGuid().ToString("N");
         string tempOutputPath = LinuxLauncherDataPath + @$"\tmp_output_{uniqueId}.txt";
         string lockFilePath = LinuxLauncherDataPath + @$"\{uniqueId}.lock";
 
-        Console.WriteLine($"UnixJunctions.RunShellCommand: tempOutputPath='{tempOutputPath}'");
+        Log($"UnixJunctions.RunShellCommand: tempOutputPath='{tempOutputPath}'");
 
         var script = $"""
         #!/bin/sh
@@ -128,7 +125,7 @@ public static class UnixJunctions
             CreateNoWindow = true
         };
 
-        Console.WriteLine("UnixJunctions.RunShellCommand: about to execute script " + uniqueId);
+        Log("UnixJunctions.RunShellCommand: about to execute script " + uniqueId);
 
         using (Process process = new() { StartInfo = processStartInfo })
         {
@@ -137,25 +134,25 @@ public static class UnixJunctions
 
             if (process.ExitCode != 0)
             {
-                Console.WriteLine($"UnixJunctions: Error executing script '{uniqueId}'. Exit code: {process.ExitCode}");
+                Log($"UnixJunctions: Error executing script '{uniqueId}'. Exit code: {process.ExitCode}");
             }
         }
 
         while (!File.Exists(tempOutputPath))
         {
-            Console.WriteLine("UnixJunctions.RunShellCommand: waiting for output file " + uniqueId);
+            Log("UnixJunctions.RunShellCommand: waiting for output file " + uniqueId);
             Thread.Sleep(50);
         }
 
         while (File.Exists(lockFilePath))
         {
-            Console.WriteLine("UnixJunctions.RunShellCommand: waiting for unix write unlock " + uniqueId);
+            Log("UnixJunctions.RunShellCommand: waiting for unix write unlock " + uniqueId);
             Thread.Sleep(50);
         }
 
         // Read the output file
         string scriptOutput = File.ReadAllText(tempOutputPath);
-        Console.WriteLine($"UnixJunctions.RunShellCommand: {uniqueId} output= {scriptOutput}");
+        Log($"UnixJunctions.RunShellCommand: {uniqueId} output= {scriptOutput}");
         File.Delete(tempOutputPath);
 
         return scriptOutput;
@@ -165,7 +162,7 @@ public static class UnixJunctions
     {
         // Skip drive letter (e.g. 'Z:')
         var result = windowsPath.Substring(2).Replace("\\", "/");
-        Console.WriteLine($"UnixJunctions.ToUnixPath: windowsPath='{windowsPath}', result='{result}'");
+        Log($"UnixJunctions.ToUnixPath: windowsPath='{windowsPath}', result='{result}'");
         return EscapeSymbols(result);
     }
 
@@ -174,7 +171,15 @@ public static class UnixJunctions
     {
         var buffer = path.Split(BadSymbols, StringSplitOptions.RemoveEmptyEntries);
         var result = string.Join(string.Empty, buffer);
-        Console.WriteLine($"UnixJunctions.EscapeSymbols: path='{path}', result='{result}'");
+        Log($"UnixJunctions.EscapeSymbols: path='{path}', result='{result}'");
         return result;
+    }
+
+    private static void Log(string message)
+    {
+        if (EnableDebugLogging)
+        {
+            File.AppendAllText(DebugLogFilePath, $"{DateTime.Now}: {message}{Environment.NewLine}");
+        }
     }
 }
