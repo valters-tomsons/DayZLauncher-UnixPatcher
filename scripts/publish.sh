@@ -1,6 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
-cd ..
+# If current directory is scripts, cd out of it
+if [[ $(pwd) == *"scripts"* ]]; then
+    cd ..
+fi
+
+echo "Cleaning up old release"
+rm ./release -r && rm ./release-musl -r
 
 echo "Building patcher for all platforms"
 
