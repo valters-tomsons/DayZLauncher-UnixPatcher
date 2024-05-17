@@ -16,11 +16,17 @@ public static class UnixJunctions
 {
     private static bool IsRunningOnMono => Type.GetType("Mono.Runtime") != null;
 
+    private static readonly string GamePath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+    private static readonly string LinuxLauncherDataPath = GamePath + @"\LinuxLauncherData";
+
+    private static readonly bool EnableDebugLogging = Environment.GetEnvironmentVariable("DAYZLAUNCHER_UNIX_LOGS") is not null;
+    private static readonly string DebugLogFilePath = LinuxLauncherDataPath + @"\launcher.log";
+
     static UnixJunctions()
     {
         if (IsRunningOnMono)
         {
-            Console.WriteLine("UnixJunctions: running on Mono runtime!");
+            Directory.CreateDirectory(LinuxLauncherDataPath);
         }
     }
 
@@ -100,8 +106,8 @@ public static class UnixJunctions
         Directory.CreateDirectory(basePath);
 
         string uniqueId = Guid.NewGuid().ToString("N");
-        string tempOutputPath = basePath + @$"\tmp_output_{uniqueId}.txt";
-        string lockFilePath = basePath + @$"\{uniqueId}.lock";
+        string tempOutputPath = LinuxLauncherDataPath + @$"\tmp_output_{uniqueId}.txt";
+        string lockFilePath = LinuxLauncherDataPath + @$"\{uniqueId}.lock";
 
         Console.WriteLine($"UnixJunctions.RunShellCommand: tempOutputPath='{tempOutputPath}'");
 
