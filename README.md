@@ -7,11 +7,10 @@ Provides unofficial fixes for the DayZ launcher when running on Linux/Proton & S
 # Features
 
 * Fixes being unable to install mods from workshop
-* Fixes settings always being reset
-* Fixes settings not being saved
 
 ## Limitations
 
+* Anything related to workshop mods will be slow
 * Might not work if game is installed on non-primary drive (e.g. SD card), see [this fork](https://github.com/djedu/DayZLauncher-UnixPatcher).
 * Any number of fixes might break after game updates
 
