@@ -5,6 +5,13 @@ namespace DayZLauncher.UnixPatcher.Patches;
 
 public static class UtilsAssemblyPatcher
 {
+    private static readonly Dictionary<string, OpCode[]> FunctionsArguments = new() {
+        {"Create", new OpCode[] {OpCodes.Ldarg_0, OpCodes.Ldarg_1, OpCodes.Ldarg_2}},
+        {"Delete", new OpCode[] {OpCodes.Ldarg_0}},
+        {"Exists", new OpCode[] {OpCodes.Ldarg_0}},
+        {"GetTarget", new OpCode[] {OpCodes.Ldarg_0}},
+    };
+
     public static AssemblyDefinition PatchAssembly(string sourcePath, string payloadPath)
     {
         using var utilsPatchDef = AssemblyDefinition.ReadAssembly(payloadPath);
@@ -12,18 +19,17 @@ public static class UtilsAssemblyPatcher
 
         var targetDef = AssemblyDefinition.ReadAssembly(sourcePath);
         var unixJunctionsImport = targetDef.MainModule.ImportReference(unixJunctionsTypeDef);
-
         var targetJunctionsTypeDef = targetDef.MainModule.GetType("Utils.IO.Junctions");
 
-        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "Create", [OpCodes.Ldarg_0, OpCodes.Ldarg_1, OpCodes.Ldarg_2]);
-        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "Delete", [OpCodes.Ldarg_0]);
-        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "Exists", [OpCodes.Ldarg_0]);
-        PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, "GetTarget", [OpCodes.Ldarg_0]);
+        foreach (var def in FunctionsArguments)
+        {
+            PatchJunctionsMethod(unixJunctionsTypeDef, targetDef, targetJunctionsTypeDef, def.Key, def.Value);
+        }
 
         return targetDef;
     }
 
-    private static void PatchJunctionsMethod(TypeDefinition unixJunctionsType, AssemblyDefinition targetDefinition, TypeDefinition junctionsClass, string methodName, List<OpCode> args)
+    private static void PatchJunctionsMethod(TypeDefinition unixJunctionsType, AssemblyDefinition targetDefinition, TypeDefinition junctionsClass, string methodName, IEnumerable<OpCode> args)
     {
         var originalMethod = junctionsClass.Methods.FirstOrDefault(m => m.Name == methodName);
         var patchedMethod = unixJunctionsType.Methods.FirstOrDefault(m => m.Name == methodName);
