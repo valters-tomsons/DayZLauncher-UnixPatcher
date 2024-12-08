@@ -1,3 +1,5 @@
+Looks like it's no longer needed, mods work fine with `Proton Experimental`.
+
 # DayZLauncher-UnixPatcher
 
 ![Screenshot from 2023-04-19 11-19-32](https://user-images.githubusercontent.com/4209639/233074371-563ca89b-2dda-4d90-b2fe-ef7045ea653b.png)
